@@ -2791,6 +2791,10 @@ namespace Weppy.AIProvider.Chat.Editor
                 if (_config.IsNoneProvider != null && _config.IsNoneProvider(providerType))
                     continue;
 
+                bool hasKey = _config.HasApiKey != null && _config.HasApiKey(providerType);
+                if (!hasKey)
+                    continue;
+
                 List<string> modelIds = _owner.GetSelectedModelIdsInternal(providerType);
                 foreach (string modelId in modelIds)
                 {
