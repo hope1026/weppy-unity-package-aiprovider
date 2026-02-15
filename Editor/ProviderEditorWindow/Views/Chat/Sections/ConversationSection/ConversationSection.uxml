@@ -1,0 +1,18 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement class="conversation-section section messages-container">
+        <ui:VisualElement class="messages-header-row">
+            <ui:Label class="section-header" text="Conversation" />
+            <ui:VisualElement class="header-actions">
+                <ui:VisualElement name="history-controls" class="history-controls">
+                    <ui:Label name="history-label" text="History" class="history-label" />
+                    <ui:DropdownField name="history-dropdown" class="history-dropdown" />
+                    <ui:Button name="history-load-button" text="Load" class="history-load-button" />
+                </ui:VisualElement>
+                <ui:Button name="clear-chat-button" text="Clear" class="clear-messages-button" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:ScrollView name="chat-messages-scroll" class="scroll-view chat-messages-scroll">
+            <ui:VisualElement name="chat-messages-container" />
+        </ui:ScrollView>
+    </ui:VisualElement>
+</ui:UXML>

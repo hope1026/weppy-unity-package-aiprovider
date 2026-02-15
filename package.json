@@ -1,0 +1,36 @@
+{
+  "name": "com.weppy.aiprovider.chat",
+  "version": "1.0.0",
+  "displayName": "Weppy AI Provider Chat",
+  "description": "A Unity package for multi-provider AI chat (API and CLI) with streaming and editor tooling.",
+  "unity": "2021.3",
+  "keywords": [
+    "ai",
+    "chat",
+    "llm",
+    "openai",
+    "gemini",
+    "claude",
+    "huggingface",
+    "openrouter",
+    "cli",
+    "editor"
+  ],
+  "author": {
+    "name": "Hanbyeol Lee",
+    "email": "hope841026@gmail.com",
+    "url": "https://github.com/hope1026/weppy_aiprovider"
+  },
+  "samples": [
+    {
+      "displayName": "Simple Chat API Sample",
+      "description": "A simple runtime IMGUI sample demonstrating basic API-based chat functionality.",
+      "path": "Samples~/SimpleChatApiSample"
+    },
+    {
+      "displayName": "Simple Chat CLI Sample",
+      "description": "A simple runtime IMGUI sample demonstrating basic CLI-based chat functionality.",
+      "path": "Samples~/SimpleChatCliSample"
+    }
+  ]
+}

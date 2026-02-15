@@ -1,26 +1,23 @@
 # Weppy AI Provider Chat
 
-A Unity package that provides chat-only integration for multiple AI providers.
-
-Language: [English](Documentation~/en/README.md) | [한국어](Documentation~/ko/README.md) | [日本語](Documentation~/ja/README.md) | [中文](Documentation~/zh/README.md)
+A Unity package for chat-only integration across multiple AI providers.
 
 ## Features
 
 - Unified API chat providers: OpenAI, Google, Anthropic, HuggingFace, OpenRouter
 - Unified CLI chat providers: Codex CLI, Claude Code CLI, Gemini CLI
 - Streaming responses for API providers
-- Unity Editor integration (`Window > Weppy > AI Provider Chat`)
-- Chat model presets and custom model ID support
+- Unity Editor window support (`Window > Weppy > AI Provider Chat`)
 
 ## Installation
 
-1. In Unity, open **Window > Package Manager**.
+1. Open **Window > Package Manager** in Unity.
 2. Click the **+** button and select **Add package from git URL...**.
 3. Paste the URL below and click **Add**.
 
 `https://github.com/hope1026/weppy-aiprovider-chat-package.git`
 
-## Quick Start (API)
+## Quick Start
 
 ```csharp
 using UnityEngine;
@@ -40,8 +37,7 @@ public class HelloAI : MonoBehaviour
                 });
 
             ChatRequestPayload payload = new ChatRequestPayload()
-                .WithSystemPrompt("You are a helpful assistant.")
-                .AddUserMessage("Say hello in one sentence.");
+                .AddUserMessage("Hello! Give me one short tip.");
 
             ChatResponse response = await manager.SendMessageAsync(payload);
             Debug.Log(response.IsSuccess ? response.Content : $"Error: {response.ErrorMessage}");
@@ -50,20 +46,9 @@ public class HelloAI : MonoBehaviour
 }
 ```
 
-## Samples
-
-- `Samples~/SimpleChatApiSample`
-- `Samples~/SimpleChatCliSample`
-
 ## Documentation
 
-See `Documentation~` for full guides.
-
-- [Index](Documentation~/en/index.md)
-- [Getting Started](Documentation~/en/getting-started.md)
-- [Chat API](Documentation~/en/chat.md)
-- [Editor Window](Documentation~/en/editor-window.md)
-
-## License
-
-This package is distributed under the Unity Asset Store EULA.
+- [Index](index.md)
+- [Getting Started](getting-started.md)
+- [Chat API](chat.md)
+- [Editor Window](editor-window.md)

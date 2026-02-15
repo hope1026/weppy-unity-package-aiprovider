@@ -1,0 +1,220 @@
+/* Custom Model Modal Styles - Dark Editor Theme */
+
+.cmm-modal-overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    -unity-background-image-tint-color: rgba(255, 255, 255, 1);
+}
+
+.cmm-modal-content {
+    width: 440px;
+    flex-direction: column;
+    background-color: rgba(40, 40, 45, 0.98);
+    border-width: 1px;
+    border-color: rgba(90, 90, 90, 0.8);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.cmm-modal-header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    background-color: rgba(32, 32, 36, 0.95);
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(70, 70, 70, 0.7);
+}
+
+.cmm-header-left {
+    flex-direction: row;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.cmm-header-buttons {
+    flex-direction: row;
+    align-items: center;
+}
+
+
+.cmm-modal-title {
+    font-size: 14px;
+    -unity-font-style: bold;
+    -unity-text-generator: advanced;
+    color: rgba(230, 230, 230, 1);
+}
+
+.cmm-modal-close {
+    width: var(--weppy-button-size-icon-size-xs);
+    height: var(--weppy-button-size-icon-size-xs);
+    padding: 0;
+    font-size: var(--weppy-button-size-icon-font-sm);
+    background-color: var(--weppy-button-color-destructive-bg);
+    color: var(--weppy-button-color-primary-text);
+    border-radius: var(--weppy-button-size-radius-round-sm);
+    border-width: 0;
+    -unity-text-align: middle-center;
+}
+
+.cmm-modal-close:hover {
+    background-color: var(--weppy-button-color-destructive-bg-hover);
+}
+
+.cmm-modal-body {
+    flex-direction: column;
+    padding: 20px;
+}
+
+.cmm-form-group {
+    flex-direction: column;
+    margin-bottom: 14px;
+}
+
+.cmm-form-row {
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
+
+.cmm-flex-1 {
+    flex-grow: 1;
+    flex-basis: 0;
+    margin-right: 12px;
+}
+
+/* Removed unknown pseudo class :last-child */
+.cmm-flex-1-last {
+    margin-right: 0;
+}
+
+.cmm-form-label {
+    font-size: 10px;
+    -unity-font-style: bold;
+    -unity-text-generator: advanced;
+    color: rgba(180, 190, 200, 1);
+    margin-bottom: 6px;
+}
+
+.cmm-provider-input {
+    flex-direction: row;
+    align-items: center;
+    padding: var(--weppy-size-input-padding-modal);
+    background-color: var(--weppy-color-input-provider-bg);
+    border-width: 1px;
+    border-color: var(--weppy-color-input-provider-border);
+    border-radius: var(--weppy-size-input-radius-modal);
+    color: var(--weppy-color-input-provider-text);
+}
+
+.cmm-provider-name-text {
+    font-size: 12px;
+    -unity-font-style: bold;
+    -unity-text-generator: advanced;
+    color: rgba(200, 200, 210, 1);
+}
+
+.cmm-provider-models-btn {
+    height: var(--weppy-button-height-md);
+    padding: var(--weppy-button-padding-md);
+    border-radius: var(--weppy-button-border-radius-md);
+    font-size:var(--weppy-button-font-size-md);
+    background-color: var(--weppy-button-color-neutral-bg);
+    border-width: 0;
+    color: var(--weppy-button-color-neutral-text);
+    -unity-font-style: normal;
+    -unity-text-generator: advanced;
+    margin-right: 8px;
+}
+
+.cmm-provider-models-btn:hover {
+    background-color: var(--weppy-button-color-neutral-bg-hover);
+}
+
+.cmm-locked-badge {
+    height: var(--weppy-button-height-sm);
+    padding: var(--weppy-button-padding-sm);
+    border-radius: var(--weppy-button-border-radius-sm);
+    font-size:var(--weppy-button-font-size-sm);
+    -unity-text-generator: advanced;
+    background-color: var(--weppy-button-color-disabled-bg);
+    color: var(--weppy-button-color-disabled-text);
+}
+
+.cmm-text-field {
+    flex-grow: 1;
+}
+
+.cmm-text-field > .unity-base-text-field__input {
+    padding: var(--weppy-size-input-padding-modal);
+    border-width: 1px;
+    border-color: var(--weppy-color-input-modal-border);
+    border-radius: var(--weppy-size-input-radius-modal);
+    background-color: var(--weppy-color-input-modal-bg);
+    font-size: var(--weppy-size-input-font-regular);
+    -unity-text-generator: advanced;
+    color: var(--weppy-color-input-modal-text);
+    min-height: var(--weppy-size-input-min-height-small);
+    --unity-text-field-placeholder-color: var(--weppy-color-input-modal-placeholder);
+}
+
+.cmm-text-field:focus > .unity-base-text-field__input {
+    border-color: var(--weppy-color-input-modal-border-focus);
+    border-width: 1px;
+    background-color: var(--weppy-color-input-modal-bg-focus);
+}
+
+.cmm-text-field > .unity-base-text-field__input--multiline {
+    min-height: var(--weppy-size-min-height-input-multiline-compact);
+    white-space: normal;
+}
+
+.cmm-modal-footer {
+    flex-direction: row;
+    padding: 12px 20px;
+    padding-top: 8px;
+}
+
+.cmm-btn-cancel {
+    flex-grow: 1;
+    height: var(--weppy-button-height-lg);
+    padding: var(--weppy-button-padding-lg);
+    border-radius: var(--weppy-button-border-radius-lg);
+    font-size: var(--weppy-button-font-size-lg);
+    background-color: var(--weppy-button-color-modal-bg);
+    border-width: 1px;
+    border-color: var(--weppy-button-color-modal-border);
+    color: var(--weppy-button-color-modal-text);
+    -unity-font-style: bold;
+    -unity-text-generator: advanced;
+    margin-right: 10px;
+}
+
+.cmm-btn-cancel:hover {
+    background-color: var(--weppy-button-color-modal-bg-hover);
+    border-color: var(--weppy-button-color-modal-border-hover);
+}
+
+.cmm-btn-save {
+    flex-grow: 2;
+    background-color: var(--weppy-button-color-action-bg);
+    border-width: 0;
+    height: var(--weppy-button-height-lg);
+    padding: var(--weppy-button-padding-lg);
+    border-radius: var(--weppy-button-border-radius-lg);
+    font-size: var(--weppy-button-font-size-lg);
+    color: white;
+    -unity-font-style: bold;
+    -unity-text-generator: advanced;
+}
+
+.cmm-btn-save:hover {
+    background-color:  var(--weppy-button-color-action-bg-hover);
+}

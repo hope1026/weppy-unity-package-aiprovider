@@ -1,0 +1,39 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement class="chat-input-section section request-section">
+        <ui:Label class="section-header" text="Chat Request" />
+        <!-- Attachment Section (visible only when files attached) -->
+        <ui:VisualElement name="image-attachment-container" class="image-attachment-container sub-section">
+            <ui:VisualElement class="attachment-header">
+                <ui:Label text="Context" class="attachment-label" />
+                <ui:Button name="clear-images-button" text="Clear All" class="clear-images-button" />
+            </ui:VisualElement>
+            <ui:VisualElement name="texture-drop-area" class="texture-drop-area">
+                <ui:Label text="Drop files here (Images, PDF, Text) or Unity Texture2D" class="drop-area-hint" />
+            </ui:VisualElement>
+            <ui:VisualElement name="image-preview-container" class="image-preview-row" />
+            <ui:Label name="attachment-hint" class="attachment-hint" text="Tip: Cmd+V / Ctrl+V to paste images, drag files (images, PDF, text) or project textures" />
+        </ui:VisualElement>
+
+        <ui:VisualElement class="sub-section">
+            <ui:TextField name="system-prompt-field" label="System Prompt" multiline="true" class="system-prompt-field" />
+            <ui:VisualElement class="chat-prompt-row">
+                <ui:TextField name="chat-prompt-field" label="User Message" multiline="true"
+                              class="prompt-field chat-prompt-field" />
+                <ui:Button name="add-attachment-button" text="+" class="add-attachment-button"
+                           tooltip="Add attachments" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <ui:VisualElement class="button-row send-options-row">
+            <ui:VisualElement class="send-options-left">
+                <ui:DropdownField name="send-mode-dropdown" class="send-mode-dropdown" />
+                <ui:Toggle name="stream-toggle" class="stream-toggle" />
+                <ui:Label name="stream-label" text="Stream" class="stream-label" />
+                <ui:Toggle name="persistent-toggle" class="persistent-toggle" />
+                <ui:Label name="persistent-label" text="Keep CLI Session" class="persistent-label" />
+                <ui:Button name="reset-session-button" text="Reset" class="reset-session-button" />
+            </ui:VisualElement>
+            <ui:Button name="send-chat-button" class="send-button" text="Send" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

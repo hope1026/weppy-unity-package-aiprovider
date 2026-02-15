@@ -1,0 +1,236 @@
+/* Shared theme tokens for ProviderEditorWindow UI */
+
+:root {
+    /* --- Standardized Button Colors --- */
+    /* Action (Green) - Critical Actions (Send, Generate, RemoveBG) */
+    --weppy-button-color-action-bg: rgba(80, 160, 100, 0.9);
+    --weppy-button-color-action-bg-hover: rgba(100, 180, 120, 1);
+    --weppy-button-color-action-text: white;
+
+    /* Primary (Blue) - Main Interactions (Add, Select, etc.) */
+    --weppy-button-color-primary-bg: rgba(79, 129, 189, 0.9);
+    --weppy-button-color-primary-bg-hover: rgba(100, 150, 220, 1);
+    --weppy-button-color-primary-text: white;
+
+    /* Neutral (Gray) - Secondary Actions, History, Config, Unimportant */
+    --weppy-button-color-neutral-bg: rgba(80, 80, 80, 0.6);
+    --weppy-button-color-neutral-bg-hover: rgba(100, 100, 100, 0.8);
+    --weppy-button-color-neutral-text: rgba(230, 230, 230, 1);
+
+    /* Destructive (Red) - Delete, Clear, Cancel, Error */
+    --weppy-button-color-destructive-bg: rgba(180, 60, 60, 0.9);
+    --weppy-button-color-destructive-bg-hover: rgba(220, 60, 60, 1);
+    --weppy-button-color-destructive-text: white;
+
+    /* Warning (Yellow) - Cautionary Actions */
+    --weppy-button-color-warning-bg: rgba(220, 160, 40, 0.9);
+    --weppy-button-color-warning-bg-hover: rgba(240, 180, 60, 1);
+    --weppy-button-color-warning-text: white;
+
+    /* Disabled State */
+    --weppy-button-color-disabled-bg: rgba(60, 60, 60, 0.6);
+    --weppy-button-color-disabled-border: rgba(80, 80, 80, 0.4);
+    --weppy-button-color-disabled-text: rgba(150, 150, 150, 0.6);
+
+    /* Link (Blue) */
+    --weppy-button-color-link: rgba(120, 160, 230, 1);
+    --weppy-button-color-link-hover: rgba(150, 180, 240, 1);
+
+    --weppy-dropdown-color-bg: rgba(40, 40, 45, 0.9);
+    --weppy-dropdown-color-bg-hover: rgba(50, 50, 55, 0.9);
+    --weppy-dropdown-color-border: rgba(80, 80, 80, 0.8);
+    --weppy-dropdown-color-border-hover: rgba(100, 120, 160, 0.9);
+    --weppy-dropdown-color-text: rgba(220, 220, 220, 1);
+
+    --weppy-chip-color-bg: rgba(63, 74, 103, 0.6);
+    --weppy-chip-color-border: rgba(80, 120, 200, 0.5);
+    --weppy-chip-color-text: white;
+    --weppy-chip-color-bg-hover: rgba(80, 100, 140, 0.7);
+    --weppy-chip-color-border-hover: rgba(100, 140, 220, 0.7);
+    --weppy-chip-color-disabled-bg: rgba(60, 60, 60, 0.4);
+    --weppy-chip-color-disabled-border: rgba(100, 100, 100, 0.4);
+    --weppy-chip-color-disabled-text: rgba(180, 180, 180, 0.8);
+    
+    /* --- Standardized Button Sizes --- */
+    /* Extra Large (xl) - Prominent call-to-actions */
+    --weppy-button-height-xl: 40px;
+    --weppy-button-padding-xl: 8px 20px;
+    --weppy-button-border-radius-xl: 8px;
+    --weppy-button-font-size-xl: 14px;
+
+    /* Large (lg) - Primary actions, main buttons */
+    --weppy-button-height-lg: 32px;
+    --weppy-button-padding-lg: 6px 16px;
+    --weppy-button-border-radius-lg: 6px;
+    --weppy-button-font-size-lg: 13px;
+
+    /* Medium (md) - Default buttons, standard actions */
+    --weppy-button-height-md: 24px;
+    --weppy-button-padding-md: 4px 8px;
+    --weppy-button-border-radius-md: 4px;
+    --weppy-button-font-size-md: 12px;
+
+    --weppy-label-height-md: 24px;
+    --weppy-label-padding-md: 4px 8px;
+    --weppy-label-border-radius-md: 4px;
+    --weppy-label-font-size-md: 12px;
+
+    --weppy-input-height-md: 24px;
+    --weppy-input-padding-md: 4px 8px;
+    --weppy-input-border-radius-md: 4px;
+    --weppy-input-font-size-md: 12px;
+
+    --weppy-dropdown-height-md: 24px;
+    --weppy-dropdown-padding-md: 4px 8px;
+    --weppy-dropdown-border-radius-md: 4px;
+    --weppy-dropdown-font-size-md: 12px;
+
+    --weppy-chip-height-md: 20px;
+    --weppy-chip-padding-md: 2px 2px;
+    --weppy-chip-border-radius-md: 6px;
+    --weppy-chip-font-size-md: 10px;
+
+    /* Small (sm) - Compact buttons, icons, secondary actions */
+    --weppy-button-height-sm: 16px;
+    --weppy-button-padding-sm: 2px 4px;
+    --weppy-button-border-radius-sm: 3px;
+    --weppy-button-font-size-sm: 10px;
+
+    --weppy-chip-height-sm: 16px;
+    --weppy-chip-padding-sm: 2px 4px;
+    --weppy-chip-border-radius-sm: 6px;
+    --weppy-chip-font-size-sm: 10px;
+    
+    /* ---- */
+    --weppy-size-tab-bar-height: 30px;
+    --weppy-size-tab-bar-margin: 8px;
+    --weppy-size-tab-button-height: 26px;
+    --weppy-size-tab-button-margin: 2px;
+    --weppy-size-tab-radius: 4px;
+    
+    --weppy-button-size-row-height: 30px;
+    --weppy-button-size-row-gap: 4px;
+    --weppy-button-size-radius: 4px;
+    --weppy-button-size-radius-soft: 6px;
+    --weppy-button-size-radius-pill: 12px;
+    --weppy-button-size-radius-round: 10px;
+    --weppy-button-size-padding-small: 4px 12px;
+    --weppy-button-size-padding-compact-sm: 4px 8px;
+    --weppy-button-size-padding-xs: 0 6px;
+    --weppy-button-size-padding-medium: 6px 14px;
+    --weppy-button-size-padding-large: 6px 20px;
+    --weppy-button-size-padding-wide: 4px 16px;
+    --weppy-button-size-padding-action: 6px 16px;
+    --weppy-button-size-padding-compact: 4px 10px;
+    --weppy-button-size-padding-modal: 8px 12px;
+    --weppy-button-size-icon-min-width: 32px;
+    --weppy-button-size-icon-size-sm: 20px;
+    --weppy-button-size-icon-size-xs: 22px;
+    --weppy-button-size-icon-size-xxs: 16px;
+    --weppy-button-size-icon-size-md: 24px;
+    --weppy-button-size-icon-size-lg: 26px;
+    --weppy-button-size-icon-font-lg: 18px;
+    --weppy-button-size-icon-font-md: 16px;
+    --weppy-button-size-icon-font-sm: 14px;
+    --weppy-button-size-icon-font-xxs: 9px;
+    --weppy-button-size-radius-round-sm: 11px;
+    --weppy-button-size-radius-round-lg: 13px;
+    --weppy-button-size-height-xs: 22px;
+    --weppy-button-size-height-xxs: 20px;
+    --weppy-button-size-height-xxxs: 18px;
+    --weppy-button-size-font-xs: 10px;
+    --weppy-button-size-font-xxs: 9px;
+
+    --weppy-size-input-padding: 4px 8px;
+    --weppy-size-input-radius: 4px;
+    --weppy-size-input-font-small: 11px;
+    --weppy-size-input-font-regular: 12px;
+    --weppy-size-input-min-height-small: 22px;
+    --weppy-size-input-padding-modal: 8px 12px;
+    --weppy-size-input-radius-modal: 6px;
+    
+    --weppy-color-section-bg: rgba(0, 0, 0, 0.2);
+    --weppy-color-tab-bar-bg: rgba(0, 0, 0, 0.3);
+
+    /* Inputs */
+    --weppy-color-input-bg: rgba(50, 50, 50, 0.8);
+    --weppy-color-input-bg-hover: rgba(60, 60, 60, 0.9);
+    --weppy-color-input-border: rgba(80, 80, 80, 0.6);
+    --weppy-color-input-border-hover: rgba(100, 150, 200, 0.8);
+    --weppy-color-input-text: white;
+    --weppy-color-input-readonly-bg: rgba(50, 50, 50, 0.5);
+    --weppy-color-input-readonly-border: rgba(80, 80, 80, 0.5);
+    --weppy-color-input-readonly-text: rgba(255, 255, 255, 0.7);
+    --weppy-color-input-provider-bg: rgba(50, 50, 55, 0.9);
+    --weppy-color-input-provider-border: rgba(80, 80, 80, 0.8);
+    --weppy-color-input-provider-text: rgba(160, 160, 170, 1);
+    --weppy-color-input-api-bg: rgba(50, 52, 58, 1);
+    --weppy-color-input-api-border: rgba(65, 70, 78, 1);
+    --weppy-color-input-api-text-readonly: rgba(200, 200, 200, 1);
+    --weppy-color-input-api-text-editable: rgba(240, 240, 240, 1);
+    --weppy-size-input-api-radius: 8px;
+    --weppy-size-input-api-padding-x: 8px;
+
+    --weppy-color-input-modal-bg: rgba(32, 32, 36, 0.95);
+    --weppy-color-input-modal-bg-focus: rgba(38, 38, 42, 0.95);
+    --weppy-color-input-modal-border: rgba(80, 80, 80, 0.8);
+    --weppy-color-input-modal-border-focus: rgba(90, 130, 210, 0.9);
+    --weppy-color-input-modal-text: rgba(230, 230, 230, 1);
+    --weppy-color-input-modal-placeholder: rgba(120, 120, 130, 0.6);
+    --weppy-button-color-modal-bg: rgba(55, 55, 60, 0.9);
+    --weppy-button-color-modal-bg-hover: rgba(65, 65, 70, 0.95);
+    --weppy-button-color-modal-border: rgba(80, 80, 80, 0.8);
+    --weppy-button-color-modal-border-hover: rgba(100, 100, 110, 0.9);
+    --weppy-button-color-modal-text: rgba(210, 210, 210, 1);
+    --weppy-size-dropdown-radius: 6px;
+    --weppy-size-dropdown-padding: 4px 8px;
+
+    --weppy-size-min-height: 20px;
+    --weppy-size-min-height-flex: 0;
+    --weppy-size-min-height-content: 100px;
+    --weppy-size-min-height-request-section: 150px;
+    --weppy-size-min-height-results: 200px;
+    --weppy-size-min-height-results-compact: 50px;
+    --weppy-size-min-height-messages: 200px;
+    --weppy-size-min-height-input: 20px;
+    --weppy-size-min-height-input-message: 20px;
+    --weppy-size-min-height-input-multiline: 40px;
+    --weppy-size-min-height-drop-area: 40px;
+    --weppy-size-min-height-drop-area-large: 60px;
+    --weppy-size-min-height-preview-row: 100px;
+    --weppy-size-min-height-preview-row-compact: 60px;
+    --weppy-size-min-height-result-content: 40px;
+    --weppy-size-min-height-button: 20px;
+    --weppy-size-min-height-message-content: 30px;
+    --weppy-size-min-height-selectable-content: 40px;
+    --weppy-size-min-height-input-multiline-compact: 60px;
+    --weppy-size-min-width-button-primary: 80px;
+    --weppy-size-min-width-button-action: 120px;
+    --weppy-size-min-width-dropdown: 140px;
+    --weppy-size-min-width-dropdown-wide: 160px;
+    --weppy-size-min-width-popup-compact: 180px;
+    --weppy-size-min-width-popup: 200px;
+    --weppy-size-min-width-provider-left: 280px;
+    --weppy-size-min-width-provider-model: 200px;
+    --weppy-size-min-width-provider-popup: 400px;
+    --weppy-size-min-width-popup-large: 860px;
+    --weppy-size-min-width-option: 200px;
+    --weppy-size-min-width-input: 120px;
+    --weppy-size-min-width-field-label: 50px;
+    --weppy-size-min-width-flex: 0;
+
+    --weppy-size-attachment-item-width: 80px;
+    --weppy-size-attachment-item-height: 100px;
+    --weppy-size-attachment-item-min-size: 20px;
+    --weppy-size-attachment-item-margin: 4px;
+    --weppy-size-attachment-item-padding: 4px;
+    --weppy-size-attachment-thumb-size: 80px;
+    --weppy-size-attachment-filename-font: 9px;
+    --weppy-size-attachment-filename-margin-top: 4px;
+    --weppy-size-attachment-filename-max-width: 90px;
+    --weppy-size-attachment-remove-size: 20px;
+    --weppy-size-attachment-remove-font: 14px;
+    --weppy-size-attachment-remove-offset: 4px;
+    --weppy-size-attachment-icon-size: 80px;
+    --weppy-size-attachment-icon-font: 11px;
+}

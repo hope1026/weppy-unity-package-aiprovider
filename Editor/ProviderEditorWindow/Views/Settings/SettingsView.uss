@@ -1,0 +1,65 @@
+
+.settings-view-container {
+    flex-grow: 1;
+    flex-direction: column;
+    margin: 1px;
+    background-color: var(--weppy-color-section-bg);
+}
+
+.sub-section {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    border-color: rgb(0, 0, 0);
+    border-width: 1px;
+    margin-top: 2px;
+    padding: 4px;
+}
+
+/* Language Section Styles */
+
+.language-container {
+    flex-shrink: 1;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    padding: 2px;
+    overflow: hidden;
+}
+
+.language-row {
+    flex-direction: row;
+    align-items: center;
+    padding-left: 10px;
+    flex-shrink: 1;
+}
+
+.language-label {
+    width: 120px;
+    -unity-font-style: bold;
+}
+
+.language-dropdown {
+    height: var(--weppy-dropdown-height-md);
+    padding: var(--weppy-dropdown-padding-md);
+    font-size: var(--weppy-dropdown-font-size-md);
+    border-radius: var(--weppy-dropdown-border-radius-md);
+    background-color: var(--weppy-dropdown-color-bg);
+    color: var(--weppy-dropdown-color-text);
+    border-width: 1px;
+    border-color:  var(--weppy-dropdown-color-border);
+    margin-right: 6px;
+}
+
+.language-dropdown:hover {
+    background-color: var(--weppy-dropdown-color-bg-hover);
+    border-color:  var(--weppy-dropdown-color-border-hover);
+}
+
+.language-dropdown > .unity-base-popup-field__input {
+    background-color: var(--weppy-dropdown-color-bg);
+    color: var(--weppy-dropdown-color-text);
+}
+
+.delete-all-data-button {
+    background-color: transparent;
+    color: var(--weppy-button-color-destructive-text);
+}
