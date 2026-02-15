@@ -1,6 +1,6 @@
 {
   "name": "com.weppy.aiprovider.chat",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "displayName": "Weppy AI Provider Chat",
   "description": "A Unity package for multi-provider AI chat (API and CLI) with streaming and editor tooling.",
   "unity": "2021.3",
