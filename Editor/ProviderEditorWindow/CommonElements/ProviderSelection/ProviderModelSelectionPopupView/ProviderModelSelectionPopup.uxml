@@ -1,0 +1,123 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement class="pms-popup-root">
+        <ui:VisualElement class="pms-header">
+            <ui:VisualElement class="pms-header-title-row">
+                <ui:Label name="pms-title" class="pms-title" text="Model Selection" />
+                <ui:VisualElement name="pms-header-selected-tabs-scroll" class="pms-header-selected-tabs-scroll">
+                    <ui:VisualElement name="pms-header-selected-tabs" class="pms-header-selected-tabs" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:Button name="pms-close" class="pms-close" text="x" />
+        </ui:VisualElement>
+        <ui:VisualElement class="pms-body">
+            <ui:VisualElement class="pms-provider-panel">
+                <ui:VisualElement class="pms-panel-header">
+                    <ui:Label class="pms-panel-title" text="Providers" />
+                </ui:VisualElement>
+                <uie:ToolbarSearchField name="pms-provider-search" class="pms-search" />
+                <ui:ScrollView name="pms-provider-scroll" class="pms-provider-scroll" mode="Vertical">
+                    <ui:VisualElement name="pms-provider-all" class="pms-provider-all" />
+                    <ui:VisualElement name="pms-provider-list" class="pms-provider-list" />
+                </ui:ScrollView>
+                <!-- API Key Section -->
+                <ui:VisualElement name="pms-api-key-section" class="pms-api-key-section">
+                    <ui:VisualElement class="pms-api-key-header">
+                        <ui:Label name="pms-api-key-title" class="pms-api-key-title" text="API Key" />
+                        <ui:Label name="pms-api-key-status" class="pms-api-key-status" text="Verified" />
+                    </ui:VisualElement>
+                    
+                    <ui:VisualElement name="pms-cli-path-section" class="pms-cli-path-section">
+                        <ui:VisualElement class="pms-cli-path-header">
+                            <ui:Label name="pms-cli-path-title" class="pms-cli-path-title" text="CLI Path" />
+                            <ui:Button name="pms-cli-path-guide-btn" class="pms-cli-path-guide-btn" text="CLI Install Guide" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="pms-cli-path-field-row">
+                            <ui:TextField name="pms-cli-path-field" class="pms-cli-path-field" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="pms-cli-path-actions">
+                            <ui:Button name="pms-cli-path-auto-btn" class="pms-cli-path-btn pms-cli-path-auto-btn" text="Auto Detect" />
+                            <ui:Button name="pms-cli-path-browse-btn" class="pms-cli-path-btn pms-cli-path-browse-btn" text="Browse..." />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+
+                    <ui:VisualElement name="pms-node-path-section" class="pms-node-path-section">
+                        <ui:VisualElement class="pms-node-path-header">
+                            <ui:Label name="pms-node-path-title" class="pms-node-path-title" text="Node.js Path" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="pms-node-path-field-row">
+                            <ui:TextField name="pms-node-path-field" class="pms-node-path-field" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="pms-node-path-actions">
+                            <ui:Button name="pms-node-path-auto-btn" class="pms-node-path-btn pms-node-path-auto-btn" text="Auto Detect" />
+                            <ui:Button name="pms-node-path-browse-btn" class="pms-node-path-btn pms-node-path-browse-btn" text="Browse..." />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+
+                    <ui:VisualElement name="pms-api-key-label-row" class="pms-api-key-label-row">
+                        <ui:Label name="pms-api-key-label" class="pms-api-key-label" text="API Key" />
+                        <ui:Button name="pms-get-api-key-btn" class="pms-get-api-key-btn" text="Get API Key" />
+                    </ui:VisualElement>
+
+                    <!-- View Mode: When API Key exists -->
+                    <ui:VisualElement name="pms-api-key-view-mode" class="pms-api-key-view-mode">
+                        <ui:VisualElement class="pms-api-key-field-row">
+                            <ui:TextField name="pms-api-key-field-readonly" class="pms-api-key-field pms-api-key-field--readonly" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="pms-api-key-actions">
+                            <ui:Button name="pms-delete-api-key-btn" class="pms-api-key-btn pms-delete-btn" text="Delete" />
+                            <ui:Button name="pms-edit-api-key-btn" class="pms-api-key-btn pms-edit-btn" text="Edit" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+
+                    <!-- Edit Mode: When editing or no API Key -->
+                    <ui:VisualElement name="pms-api-key-edit-mode" class="pms-api-key-edit-mode">
+                        <ui:VisualElement class="pms-api-key-field-row">
+                            <ui:TextField name="pms-api-key-field-editable" class="pms-api-key-field pms-api-key-field--editable" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="pms-api-key-actions">
+                            <ui:Button name="pms-cancel-edit-btn" class="pms-api-key-btn pms-cancel-btn" text="Cancel" />
+                            <ui:Button name="pms-save-api-key-btn" class="pms-api-key-btn pms-save-btn" text="Save" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    
+                    <ui:VisualElement name="pms-api-key-optional-row" class="pms-api-key-optional-row">
+                        <ui:Toggle name="pms-api-key-optional-toggle" class="pms-api-key-optional-toggle" text="Use API Key (optional)" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement class="pms-model-panel">
+                <ui:VisualElement class="pms-panel-header pms-panel-header--models">
+                    <ui:VisualElement class="pms-model-header-left">
+                        <ui:Label name="pms-model-title" class="pms-panel-title" text="Models" />
+                        <ui:VisualElement name="pms-model-selected-tabs-scroll" class="pms-model-selected-tabs-scroll">
+                            <ui:VisualElement name="pms-model-selected-tabs" class="pms-model-selected-tabs" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+
+                <ui:VisualElement name="pms-no-api-key-warning" class="pms-no-api-key-warning">
+                    <ui:Label class="pms-warning-icon" text="!" />
+                    <ui:Label name="pms-no-api-key-text" class="pms-warning-text" text="API Key Required" />
+                    <ui:Button name="pms-go-to-settings-btn" class="pms-go-to-settings-btn" text="Set API Key Here" />
+                </ui:VisualElement>
+
+                <ui:VisualElement class="pms-warning-banner">
+                    <ui:Label class="pms-warning-icon" text="!" />
+                    <ui:Label name="pms-warning-text" class="pms-warning-text" text="Warning" />
+                    <ui:Button name="pms-official-doc-btn" class="pms-view-official-doc-btn" text="Official Docs" />
+                </ui:VisualElement>
+                
+                <ui:VisualElement class="pms-search-row">
+                    <uie:ToolbarSearchField name="pms-model-search" class="pms-model-search" />
+                    <uie:ToolbarMenu name="pms-model-sort" class="pms-sort-dropdown" text="Sort" />
+                    <ui:Button name="pms-add-model-btn" class="pms-add-model-btn" text="+Add Model" />
+                    <ui:Button name="pms-delete-custom-btn" class="pms-delete-custom-btn" text="Delete Custom Models" />
+                </ui:VisualElement>
+
+                <ui:ScrollView name="pms-model-scroll" class="pms-model-scroll" mode="Vertical">
+                    <ui:VisualElement name="pms-model-list" class="pms-model-list" />
+                </ui:ScrollView>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

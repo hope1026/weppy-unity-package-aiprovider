@@ -1,0 +1,23 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement class="main-container">
+        <!-- Header Bar -->
+        <ui:VisualElement class="header-bar" name="header-bar">
+            <ui:Label text="AI Provider Chat" class="header-logo" />
+            <ui:VisualElement class="tab-bar" name="tab-bar">
+                <ui:Button name="chat-tab" class="tab-button" text="Chat" />
+                <ui:Button name="settings-tab" class="tab-button" text="Settings" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- Content Container -->
+        <ui:ScrollView class="content-container" name="content-container">
+            <ui:VisualElement name="settings-content" />
+            <ui:VisualElement name="chat-content" />
+        </ui:ScrollView>
+
+        <!-- Status Bar -->
+        <ui:VisualElement class="status-bar">
+            <ui:Label name="status-text" class="status-text" text="Ready" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

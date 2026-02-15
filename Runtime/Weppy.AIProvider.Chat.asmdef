@@ -1,0 +1,13 @@
+{
+    "name": "Weppy.AIProvider.Chat",
+    "rootNamespace": "Weppy.AIProvider.Chat",
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

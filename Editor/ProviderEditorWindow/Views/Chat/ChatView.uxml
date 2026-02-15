@@ -1,0 +1,12 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement class="chat-view-container">
+        <!-- Model Selection Section Container -->
+        <ui:VisualElement name="model-section-container" />
+
+        <!-- Conversation Section Container -->
+        <ui:VisualElement name="conversation-section-container" />
+
+        <!-- Chat Input Section Container -->
+        <ui:VisualElement name="input-section-container" />
+    </ui:VisualElement>
+</ui:UXML>

@@ -1,0 +1,57 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement name="cmm-modal-overlay" class="cmm-modal-overlay" style="display: none;">
+        <ui:VisualElement class="cmm-modal-content">
+            <ui:VisualElement class="cmm-modal-header">
+                <ui:VisualElement class="cmm-header-left">
+                    <ui:Label name="cmm-modal-title" class="cmm-modal-title" text="Add Model" />
+                </ui:VisualElement>
+                <ui:VisualElement class="cmm-header-buttons">
+                    <ui:Button name="cmm-modal-close" class="cmm-modal-close" text="x" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+            <ui:VisualElement class="cmm-modal-body">
+                <ui:VisualElement class="cmm-form-group">
+                    <ui:Label name="cmm-label-provider" class="cmm-form-label" text="PROVIDER" />
+                    <ui:VisualElement class="cmm-provider-input">
+                        <ui:Label name="cmm-modal-provider-name" class="cmm-provider-name-text" text="Provider Name" />
+                        <ui:Label name="cmm-label-locked" class="cmm-locked-badge" text="Locked" />
+                        <ui:Button name="cmm-provider-models-btn" class="cmm-provider-models-btn" text="View Models" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+
+                <ui:VisualElement class="cmm-form-row">
+                    <ui:VisualElement class="cmm-form-group cmm-flex-1">
+                        <ui:Label name="cmm-label-model-name" class="cmm-form-label" text="MODEL NAME" />
+                        <ui:TextField name="cmm-modal-model-name" class="cmm-text-field" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="cmm-form-group cmm-flex-1 cmm-flex-1-last">
+                        <ui:Label name="cmm-label-model-id" class="cmm-form-label" text="MODEL ID" />
+                        <ui:TextField name="cmm-modal-model-id" class="cmm-text-field" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+
+                <ui:VisualElement class="cmm-form-row">
+                    <ui:VisualElement class="cmm-form-group cmm-flex-1">
+                        <ui:Label name="cmm-label-pricing" class="cmm-form-label" text="PRICING" />
+                        <ui:TextField name="cmm-modal-pricing" class="cmm-text-field" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="cmm-form-group cmm-flex-1 cmm-flex-1-last">
+                        <ui:Label name="cmm-label-tokens" class="cmm-form-label" text="TOKEN LIMIT" />
+                        <ui:TextField name="cmm-modal-tokens" class="cmm-text-field" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+
+                <ui:VisualElement class="cmm-form-group">
+                    <ui:Label name="cmm-label-description" class="cmm-form-label" text="DESCRIPTION" />
+                    <ui:TextField name="cmm-modal-description" class="cmm-text-field" multiline="true" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+            <ui:VisualElement class="cmm-modal-footer">
+                <ui:Button name="cmm-modal-cancel" class="cmm-btn-cancel" text="Cancel" />
+                <ui:Button name="cmm-modal-save" class="cmm-btn-save" text="Save Model" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

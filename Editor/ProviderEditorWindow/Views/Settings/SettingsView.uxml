@@ -1,0 +1,15 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement class="settings-view-container">
+        <ui:VisualElement class="section language-container">
+            <ui:VisualElement class="language-row sub-section">
+                <ui:Label name="language-label" class="language-label" text="Editor Language" />
+                <ui:DropdownField name="language-field" class="language-dropdown" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement class="section data-container">
+            <ui:VisualElement class="data-row sub-section">
+                <ui:Button name="delete-all-data-button" class="delete-all-data-button" text="Delete All Data" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

@@ -1,0 +1,111 @@
+/* Image Editor Window Styles */
+
+.main-container {
+    flex-grow: 1;
+    flex-direction: column;
+}
+
+/* Header Bar */
+.header-bar {
+    flex-direction: row;
+    align-items: center;
+    min-height: 50px;
+    flex-shrink: 0;
+    padding: 2px 18px;
+    background-color: rgba(0, 0, 0, 0.4);
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(255, 255, 255, 0.05);
+}
+
+.header-logo {
+    font-size: 24px;
+    -unity-font-style: bold;
+    color: rgb(100, 200, 100);
+    margin-right: 24px;
+    flex-shrink: 0;
+}
+
+/* Tab Bar */
+.tab-bar {
+    flex-direction: row;
+    min-height: 36px;
+    flex-shrink: 0;
+    background-color: var(--weppy-color-tab-bar-bg);
+    border-radius: 10px;
+    padding: 4px;
+    max-width: 600px;
+}
+
+/*noinspection CssInvalidPropertyValue*/
+.tab-button {
+    min-height: 28px;
+    -unity-font-style: normal;
+    border-width: 0;
+    background-color: transparent;
+    border-radius: 4px;
+    margin: 0;
+    padding: 6px 16px;
+    color: rgba(255, 255, 255, 0.6);
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.tab-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.tab-button.selected {
+    background-color: rgba(100, 140, 180, 1);
+    color: rgb(255, 255, 255);
+}
+
+/* Content Container */
+.content-container {
+    flex-grow: 1;
+    min-height: var(--weppy-size-min-height-flex);
+}
+
+.content-container .unity-scroll-view__content-and-vertical-scroll-container {
+    flex-grow: 1;
+    min-height: var(--weppy-size-min-height-flex);
+}
+
+.content-container .unity-scroll-view__content-viewport {
+    flex-grow: 1;
+    min-height: var(--weppy-size-min-height-flex);
+}
+
+.content-container .unity-scroll-view__content-container {
+    flex-grow: 1;
+    min-height: var(--weppy-size-min-height-flex);
+}
+
+#chat-content,
+#image-content,
+#bgremoval-content,
+#settings-content {
+    flex-grow: 1;
+    min-height: var(--weppy-size-min-height-content);
+}
+
+#chat-content > *,
+#image-content > *,
+#bgremoval-content > *,
+#settings-content > * {
+    flex-grow: 1;
+    min-height: var(--weppy-size-min-height-flex);
+}
+
+/* Status Bar */
+.status-bar {
+    flex-direction: row;
+    padding: 4px 8px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-top-width: 1px;
+    border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+.status-text {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.6);
+}

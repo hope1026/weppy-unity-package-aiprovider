@@ -1,0 +1,349 @@
+{
+  "chatProviders": [
+    {
+      "provider": "OPEN_AI",
+      "modelsUrl": "https://platform.openai.com/docs/models",
+      "models": [
+        {
+          "id": "gpt-4o-mini",
+          "displayName": "GPT-4o Mini",
+          "descriptions": [
+            {
+              "languageCode": "ko",
+              "value": "경제적 멀티모달"
+            },
+            {
+              "languageCode": "en",
+              "value": "Cost-effective multimodal"
+            },
+            {
+              "languageCode": "ja",
+              "value": "コスト効率の高いマルチモーダル"
+            },
+            {
+              "languageCode": "zh",
+              "value": "经济型多模态"
+            }
+          ],
+          "infoUrl": "https://platform.openai.com/docs/models",
+          "inputPrice": "$0.15/1M",
+          "outputPrice": "$0.6/1M",
+          "contextWindow": "128000",
+          "maxOutputTokens": "16384"
+        }
+      ]
+    },
+    {
+      "provider": "GOOGLE",
+      "modelsUrl": "https://ai.google.dev/gemini-api/docs/models/gemini",
+      "models": [
+        {
+          "id": "gemini-2.5-flash",
+          "displayName": "Gemini 2.5 Flash",
+          "descriptions": [
+            {
+              "languageCode": "ko",
+              "value": "빠른 멀티모달, 1M 컨텍스트"
+            },
+            {
+              "languageCode": "en",
+              "value": "Fast multimodal, 1M context"
+            },
+            {
+              "languageCode": "ja",
+              "value": "高速マルチモーダル、1Mコンテキスト"
+            },
+            {
+              "languageCode": "zh",
+              "value": "快速多模态，100万上下文"
+            }
+          ],
+          "infoUrl": "https://ai.google.dev/gemini-api/docs/models/gemini",
+          "inputPrice": "$0.15/1M",
+          "outputPrice": "$0.45/1M",
+          "contextWindow": "1000000",
+          "maxOutputTokens": "8192"
+        }
+      ]
+    },
+    {
+      "provider": "ANTHROPIC",
+      "modelsUrl": "https://platform.claude.com/docs/en/about-claude/models/overview",
+      "models": [
+        {
+          "id": "claude-sonnet-4-5-20250929",
+          "displayName": "Claude Sonnet 4.5",
+          "descriptions": [
+            {
+              "languageCode": "ko",
+              "value": "복잡한 작업에 강한 균형형"
+            },
+            {
+              "languageCode": "en",
+              "value": "Strong balanced model for complex tasks"
+            },
+            {
+              "languageCode": "ja",
+              "value": "複雑なタスクに強いバランス型"
+            },
+            {
+              "languageCode": "zh",
+              "value": "适合复杂任务的强大均衡模型"
+            }
+          ],
+          "infoUrl": "https://docs.anthropic.com/en/docs/about-claude/models#claude-4",
+          "inputPrice": "$3/1M",
+          "outputPrice": "$15/1M",
+          "contextWindow": "200000",
+          "maxOutputTokens": "4096"
+        }
+      ]
+    },
+    {
+      "provider": "HUGGING_FACE",
+      "modelsUrl": "https://huggingface.co/models?pipeline_tag=text-generation",
+      "models": [
+        {
+          "id": "Qwen/Qwen2.5-72B-Instruct",
+          "displayName": "Qwen 2.5 72B Instruct",
+          "descriptions": [
+            {
+              "languageCode": "ko",
+              "value": "대규모 다국어 모델, 고성능"
+            },
+            {
+              "languageCode": "en",
+              "value": "Large multilingual model, high performance"
+            },
+            {
+              "languageCode": "ja",
+              "value": "大規模多言語モデル、高性能"
+            },
+            {
+              "languageCode": "zh",
+              "value": "大型多语言模型，高性能"
+            }
+          ],
+          "inputPrice": "Free/Pro",
+          "outputPrice": "Free/Pro",
+          "infoUrl": "https://huggingface.co/Qwen/Qwen2.5-72B-Instruct",
+          "contextWindow": "32768",
+          "maxOutputTokens": "8192"
+        }
+      ]
+    },
+    {
+      "provider": "OPEN_ROUTER",
+      "modelsUrl": "https://openrouter.ai/models",
+      "models": [
+        {
+          "id": "meta-llama/llama-3.3-70b-instruct:free",
+          "displayName": "Llama 3.3 70B (Free)",
+          "descriptions": [
+            {
+              "languageCode": "ko",
+              "value": "무료 티어, Meta 최신 모델"
+            },
+            {
+              "languageCode": "en",
+              "value": "Free tier, Meta's latest"
+            },
+            {
+              "languageCode": "ja",
+              "value": "無料ティア、Meta最新"
+            },
+            {
+              "languageCode": "zh",
+              "value": "免费层，Meta最新"
+            }
+          ],
+          "infoUrl": "https://openrouter.ai/models/meta-llama/llama-3.3-70b-instruct:free",
+          "inputPrice": "Free",
+          "outputPrice": "Free",
+          "contextWindow": "128000",
+          "maxOutputTokens": "8192"
+        }
+      ]
+    },
+    {
+      "provider": "CODEX_CLI",
+      "modelsUrl": "https://developers.openai.com/codex/models",
+      "models": [
+        {
+          "id": "Auto",
+          "displayName": "Auto (recommended)",
+          "descriptions": [
+            {
+              "languageCode": "ko",
+              "value": "계정 유형에 따른 권장 모델 설정"
+            },
+            {
+              "languageCode": "en",
+              "value": "Recommended model setting, depending on your account type"
+            },
+            {
+              "languageCode": "ja",
+              "value": "アカウントタイプに応じた推奨モデル設定"
+            },
+            {
+              "languageCode": "zh",
+              "value": "根据您的帐户类型推荐的模型设置"
+            }
+          ],
+          "infoUrl": "https://developers.openai.com/codex/models",
+          "inputPrice": "Varies",
+          "outputPrice": "Varies",
+          "contextWindow": "Varies",
+          "maxOutputTokens": "Varies"
+        },
+        {
+          "id": "gpt-5.3-codex",
+          "displayName": "GPT-5.3 Codex",
+          "descriptions": [
+            {
+              "languageCode": "ko",
+              "value": "최고 성능 코딩 모델, 강력한 추론"
+            },
+            {
+              "languageCode": "en",
+              "value": "Most capable coding model with strong reasoning"
+            },
+            {
+              "languageCode": "ja",
+              "value": "最高性能コーディングモデル、強力な推論"
+            },
+            {
+              "languageCode": "zh",
+              "value": "最强编码模型，强大推理能力"
+            }
+          ],
+          "infoUrl": "https://developers.openai.com/codex/models",
+          "inputPrice": "$1.25/1M",
+          "outputPrice": "$10/1M",
+          "contextWindow": "400000",
+          "maxOutputTokens": "128000"
+        },
+        {
+          "id": "gpt-5.2-codex",
+          "displayName": "GPT-5.2 Codex",
+          "descriptions": [
+            {
+              "languageCode": "ko",
+              "value": "고급 코딩 모델, 리팩토링에 강점"
+            },
+            {
+              "languageCode": "en",
+              "value": "Advanced coding model, strong at refactoring"
+            },
+            {
+              "languageCode": "ja",
+              "value": "高度なコーディングモデル、リファクタリングに強み"
+            },
+            {
+              "languageCode": "zh",
+              "value": "高级编码模型，擅长重构"
+            }
+          ],
+          "infoUrl": "https://developers.openai.com/codex/models",
+          "inputPrice": "$1.75/1M",
+          "outputPrice": "$14/1M",
+          "contextWindow": "400000",
+          "maxOutputTokens": "128000"
+        },
+        {
+          "id": "gpt-5.1-codex-mini",
+          "displayName": "GPT-5.1 Codex Mini",
+          "descriptions": [
+            {
+              "languageCode": "ko",
+              "value": "경량 코딩 모델, 빠르고 경제적"
+            },
+            {
+              "languageCode": "en",
+              "value": "Lightweight coding model, fast and cost-effective"
+            },
+            {
+              "languageCode": "ja",
+              "value": "軽量コーディングモデル、高速で経済的"
+            },
+            {
+              "languageCode": "zh",
+              "value": "轻量编码模型，快速且经济"
+            }
+          ],
+          "infoUrl": "https://developers.openai.com/codex/models",
+          "inputPrice": "$0.25/1M",
+          "outputPrice": "$2/1M",
+          "contextWindow": "400000",
+          "maxOutputTokens": "128000"
+        }
+      ]
+    },
+    {
+      "provider": "CLAUDE_CODE_CLI",
+      "modelsUrl": "https://code.claude.com/docs/en/model-config",
+      "models": [
+        {
+          "id": "Auto",
+          "displayName": "Auto (recommended)",
+          "descriptions": [
+            {
+              "languageCode": "ko",
+              "value": "계정 유형에 따른 권장 모델 설정"
+            },
+            {
+              "languageCode": "en",
+              "value": "Recommended model setting, depending on your account type"
+            },
+            {
+              "languageCode": "ja",
+              "value": "アカウントタイプに応じた推奨モデル設定"
+            },
+            {
+              "languageCode": "zh",
+              "value": "根据您的帐户类型推荐的模型设置"
+            }
+          ],
+          "infoUrl": "https://code.claude.com/docs/en/model-config",
+          "inputPrice": "Varies",
+          "outputPrice": "Varies",
+          "contextWindow": "Varies",
+          "maxOutputTokens": "Varies"
+        }
+      ]
+    },
+    {
+      "provider": "GEMINI_CLI",
+      "modelsUrl": "https://geminicli.com/docs/cli/model/",
+      "models": [
+        {
+          "id": "Auto",
+          "displayName": "Auto (recommended)",
+          "descriptions": [
+            {
+              "languageCode": "ko",
+              "value": "계정 유형에 따른 권장 모델 설정"
+            },
+            {
+              "languageCode": "en",
+              "value": "Recommended model setting, depending on your account type"
+            },
+            {
+              "languageCode": "ja",
+              "value": "アカウントタイプに応じた推奨モデル設定"
+            },
+            {
+              "languageCode": "zh",
+              "value": "根据您的帐户类型推荐的模型设置"
+            }
+          ],
+          "infoUrl": "https://geminicli.com/docs/cli/model/",
+          "inputPrice": "Varies",
+          "outputPrice": "Varies",
+          "contextWindow": "Varies",
+          "maxOutputTokens": "Varies"
+        }
+      ]
+    }
+  ]
+}
