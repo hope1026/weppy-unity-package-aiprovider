@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement class="bgremoval-view-container">
+        <ui:VisualElement name="provider-section-container" />
+        <ui:VisualElement name="results-section-container" />
+        <ui:VisualElement name="input-section-container" />
+    </ui:VisualElement>
+</ui:UXML>

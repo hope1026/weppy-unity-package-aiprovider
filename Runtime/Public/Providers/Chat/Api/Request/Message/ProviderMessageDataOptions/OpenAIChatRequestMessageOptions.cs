@@ -1,4 +1,4 @@
-namespace Weppy.AIProvider.Chat
+namespace Weppy.AIProvider
 {
     /// <summary>
     /// OpenAI-specific message options for chat requests.

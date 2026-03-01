@@ -1,30 +1,59 @@
-# Weppy AI Provider Chat
+# Weppy AI Provider
 
-A Unity package that provides chat-only integration for multiple AI providers.
+A unified Unity package for integrating multiple AI providers (OpenAI, Google Gemini, Anthropic, HuggingFace, OpenRouter) for Chat, Image Generation, and Background Removal.
 
 Language: [English](Documentation~/en/README.md) | [한국어](Documentation~/ko/README.md) | [日本語](Documentation~/ja/README.md) | [中文](Documentation~/zh/README.md)
 
+## Screenshots
+
+### Chat
+> Multi-provider chat with streaming support (API & CLI)
+
+![Chat](Documentation~/images/chat01.png)
+
+### Image Generation
+> Generate images with DALL-E, Imagen, and more
+
+![Image Generation](Documentation~/images/image-gen-01.png)
+
+### Background Removal
+> Remove image backgrounds with one click
+
+![Background Removal](Documentation~/images/gb-removal-01.png)
+
+### Provider Settings
+> Configure providers and models in the Editor window
+
+![Provider Settings - Chat](Documentation~/images/provider-window-01.png)
+![Provider Settings - Image](Documentation~/images/provider-window-02.png)
+
+### Custom Model
+> Add custom models with pricing and token limits
+
+![Custom Model](Documentation~/images/provider-window-custom-01.png)
+
 ## Features
 
-- Unified API chat providers: OpenAI, Google, Anthropic, HuggingFace, OpenRouter
-- Unified CLI chat providers: Codex CLI, Claude Code CLI, Gemini CLI
-- Streaming responses for API providers
-- Unity Editor integration (`Window > Weppy > AI Provider Chat`)
-- Chat model presets and custom model ID support
+- **Chat**: Unified API for GPT-4, Gemini Pro, Claude 3, and more. Supports streaming.
+- **Image Generation**: DALL-E 3, Imagen.
+- **Tools**: Background removal via RemoveBg.
+- **Editor Integration**: Test prompts directly in the Unity Editor.
 
 ## Installation
+
+### Git URL (Recommended)
 
 1. In Unity, open **Window > Package Manager**.
 2. Click the **+** button and select **Add package from git URL...**.
 3. Paste the URL below and click **Add**.
 
-`https://github.com/hope1026/weppy-aiprovider-chat-package.git`
+`https://github.com/hope1026/weppy-unity-package-aiprovider.git`
 
-## Quick Start (API)
+## Quick Start
 
 ```csharp
 using UnityEngine;
-using Weppy.AIProvider.Chat;
+using Weppy.AIProvider;
 
 public class HelloAI : MonoBehaviour
 {
@@ -36,15 +65,14 @@ public class HelloAI : MonoBehaviour
                 ChatProviderType.OPEN_AI,
                 new ChatProviderSettings("sk-your-api-key")
                 {
-                    DefaultModel = ChatModelPresets.OpenAI.GPT_4O_MINI
+                    DefaultModel = "gpt-4o"
                 });
 
             ChatRequestPayload payload = new ChatRequestPayload()
-                .WithSystemPrompt("You are a helpful assistant.")
-                .AddUserMessage("Say hello in one sentence.");
+                .AddUserMessage("Hello!");
 
             ChatResponse response = await manager.SendMessageAsync(payload);
-            Debug.Log(response.IsSuccess ? response.Content : $"Error: {response.ErrorMessage}");
+            Debug.Log(response.IsSuccess ? response.Content : response.ErrorMessage);
         }
     }
 }
@@ -54,6 +82,7 @@ public class HelloAI : MonoBehaviour
 
 - `Samples~/SimpleChatApiSample`
 - `Samples~/SimpleChatCliSample`
+- `Samples~/SimpleImageSample`
 
 ## Documentation
 
@@ -62,8 +91,10 @@ See `Documentation~` for full guides.
 - [Index](Documentation~/en/index.md)
 - [Getting Started](Documentation~/en/getting-started.md)
 - [Chat API](Documentation~/en/chat.md)
+- [Image Generation](Documentation~/en/image-generation.md)
+- [Background Removal](Documentation~/en/bg-removal.md)
 - [Editor Window](Documentation~/en/editor-window.md)
 
 ## License
 
-This package is distributed under the Unity Asset Store EULA.
+See [LICENSE.md](LICENSE.md) for license details.

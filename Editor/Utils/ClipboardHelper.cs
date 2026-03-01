@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
-namespace Weppy.AIProvider.Chat.Editor
+namespace Weppy.AIProvider.Editor
 {
     public static class ClipboardHelper
     {

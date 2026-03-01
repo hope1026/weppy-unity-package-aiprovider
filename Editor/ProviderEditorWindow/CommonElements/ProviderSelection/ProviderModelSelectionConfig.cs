@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Weppy.AIProvider.Chat.Editor
+namespace Weppy.AIProvider.Editor
 {
     public class ProviderModelSelectionConfig<TProviderType, TModelInfo>
         where TProviderType : struct, Enum
@@ -12,7 +12,8 @@ namespace Weppy.AIProvider.Chat.Editor
         public string SectionUssPath;
 
         public Func<TProviderType, bool> IsNoneProvider;
-        public Func<TProviderType, bool> HasApiKey;
+        public Func<TProviderType, bool> HasProviderAuth;
+        public Func<TProviderType, bool> IsProviderEnabled;
         public Func<TProviderType, bool> IsApiKeyOptional;
         public Func<TProviderType, bool> IsApiKeyEnabled;
         public Action<TProviderType, bool> SetApiKeyEnabled;

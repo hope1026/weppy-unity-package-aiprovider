@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Weppy.AIProvider.Chat
+namespace Weppy.AIProvider
 {
     /// <summary>
     /// Manages chat providers and routes requests based on priority and availability.
@@ -81,7 +81,6 @@ namespace Weppy.AIProvider.Chat
             if (providerType == ChatProviderType.NONE)
                 return Task.FromResult(ChatResponse.FromError("No enabled providers available"));
 
-            ChatProviderEntry entry = _providerEntries.FirstOrDefault(e => e.ProviderType == providerType);
             ChatRequestParams requestParams = new ChatRequestParams
             {
                 RequestPayload = requestPayload_,
@@ -90,7 +89,7 @@ namespace Weppy.AIProvider.Chat
                     new ChatRequestProviderTarget
                     {
                         ProviderType = providerType,
-                        Model = entry?.Settings?.DefaultModel,
+                        Model = null,
                         Priority = 0
                     }
                 }
@@ -152,14 +151,37 @@ namespace Weppy.AIProvider.Chat
             System.Func<string, System.Threading.Tasks.Task> onChunkReceived_,
             CancellationToken cancellationToken_ = default)
         {
+            return StreamMessageAsync(requestPayload_, onChunkReceived_, onError_: null, cancellationToken_);
+        }
+
+        /// <summary>
+        /// Streams chat responses using the highest-priority available provider.
+        /// </summary>
+        /// <param name="requestPayload_">Request payload to send.</param>
+        /// <param name="onChunkReceived_">Callback invoked for each received text chunk.</param>
+        /// <param name="onError_">Callback invoked when a provider streaming attempt fails.</param>
+        /// <param name="cancellationToken_">Cancellation token.</param>
+        public async Task StreamMessageAsync(
+            ChatRequestPayload requestPayload_,
+            System.Func<string, System.Threading.Tasks.Task> onChunkReceived_,
+            System.Func<ChatProviderType, string, System.Threading.Tasks.Task> onError_,
+            CancellationToken cancellationToken_ = default)
+        {
             if (requestPayload_ == null)
-                return Task.CompletedTask;
+            {
+                if (onError_ != null)
+                    await onError_(ChatProviderType.NONE, "Invalid params");
+                return;
+            }
 
             ChatProviderType providerType = GetHighestPriorityProvider();
             if (providerType == ChatProviderType.NONE)
-                return Task.CompletedTask;
+            {
+                if (onError_ != null)
+                    await onError_(ChatProviderType.NONE, "No enabled providers available");
+                return;
+            }
 
-            ChatProviderEntry entry = _providerEntries.FirstOrDefault(e => e.ProviderType == providerType);
             ChatRequestParams requestParams = new ChatRequestParams
             {
                 RequestPayload = requestPayload_,
@@ -168,13 +190,13 @@ namespace Weppy.AIProvider.Chat
                     new ChatRequestProviderTarget
                     {
                         ProviderType = providerType,
-                        Model = entry?.Settings?.DefaultModel,
+                        Model = null,
                         Priority = 0
                     }
                 }
             };
 
-            return StreamMessageInternalAsync(requestParams, onChunkReceived_, cancellationToken_);
+            await StreamMessageInternalAsync(requestParams, onChunkReceived_, onError_, cancellationToken_);
         }
 
         /// <summary>
@@ -188,7 +210,23 @@ namespace Weppy.AIProvider.Chat
             System.Func<string, System.Threading.Tasks.Task> onChunkReceived_,
             CancellationToken cancellationToken_ = default)
         {
-            return StreamMessageInternalAsync(requestParams_, onChunkReceived_, cancellationToken_);
+            return StreamMessageWithProvidersAsync(requestParams_, onChunkReceived_, onError_: null, cancellationToken_);
+        }
+
+        /// <summary>
+        /// Streams chat responses using specified provider targets.
+        /// </summary>
+        /// <param name="requestParams_">Request parameters including provider targets.</param>
+        /// <param name="onChunkReceived_">Callback invoked for each received text chunk.</param>
+        /// <param name="onError_">Callback invoked when a provider streaming attempt fails.</param>
+        /// <param name="cancellationToken_">Cancellation token.</param>
+        public Task StreamMessageWithProvidersAsync(
+            ChatRequestParams requestParams_,
+            System.Func<string, System.Threading.Tasks.Task> onChunkReceived_,
+            System.Func<ChatProviderType, string, System.Threading.Tasks.Task> onError_,
+            CancellationToken cancellationToken_ = default)
+        {
+            return StreamMessageInternalAsync(requestParams_, onChunkReceived_, onError_, cancellationToken_);
         }
 
         /// <summary>

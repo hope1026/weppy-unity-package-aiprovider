@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Weppy.AIProvider.Chat
+namespace Weppy.AIProvider
 {
     internal class GoogleChatProvider : ChatProviderAbstract
     {
@@ -148,10 +148,8 @@ namespace Weppy.AIProvider.Chat
 
             await _httpClient.PostStreamWithCallbackAsync(url, body, async line =>
             {
-                if (string.IsNullOrEmpty(line) || !line.StartsWith("options: "))
+                if (!TryExtractSseData(line, out string data))
                     return;
-
-                string data = line.Substring(6);
 
                 Dictionary<string, object> json = JsonHelper.Deserialize(data);
                 if (json == null)
@@ -190,6 +188,9 @@ namespace Weppy.AIProvider.Chat
 
             foreach (ChatRequestMessage msg in requestPayload_.Messages)
             {
+                if (msg == null)
+                    continue;
+
                 if (msg.RequestMessageRoleType == ChatRequestMessageRoleType.SYSTEM)
                 {
                     systemInstruction = msg.Content;
@@ -207,7 +208,7 @@ namespace Weppy.AIProvider.Chat
                         {
                             parts.Add(new Dictionary<string, object> { ["text"] = content.Text });
                         }
-                        else if (content.Type == "image" && content.Image != null)
+                        else if (IsImageContentPart(content.Type) && content.Image != null)
                         {
                             if (!string.IsNullOrEmpty(content.Image.Base64Data))
                             {
@@ -216,7 +217,7 @@ namespace Weppy.AIProvider.Chat
                                     ["inline_data"] = new Dictionary<string, object>
                                     {
                                         ["mime_type"] = content.Image.MediaType,
-                                        ["options"] = content.Image.Base64Data
+                                        ["data"] = content.Image.Base64Data
                                     }
                                 });
                             }
@@ -230,7 +231,7 @@ namespace Weppy.AIProvider.Chat
                                     ["inline_data"] = new Dictionary<string, object>
                                     {
                                         ["mime_type"] = content.Document.MediaType,
-                                        ["options"] = content.Document.Base64Data
+                                        ["data"] = content.Document.Base64Data
                                     }
                                 });
                             }

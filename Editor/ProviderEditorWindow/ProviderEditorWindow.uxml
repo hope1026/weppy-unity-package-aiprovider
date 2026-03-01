@@ -2,9 +2,11 @@
     <ui:VisualElement class="main-container">
         <!-- Header Bar -->
         <ui:VisualElement class="header-bar" name="header-bar">
-            <ui:Label text="AI Provider Chat" class="header-logo" />
+            <ui:Label text="AI Provider" class="header-logo" />
             <ui:VisualElement class="tab-bar" name="tab-bar">
                 <ui:Button name="chat-tab" class="tab-button" text="Chat" />
+                <ui:Button name="image-tab" class="tab-button" text="Image Gen" />
+                <ui:Button name="bgremoval-tab" class="tab-button" text="Background Removal" />
                 <ui:Button name="settings-tab" class="tab-button" text="Settings" />
             </ui:VisualElement>
         </ui:VisualElement>
@@ -13,6 +15,8 @@
         <ui:ScrollView class="content-container" name="content-container">
             <ui:VisualElement name="settings-content" />
             <ui:VisualElement name="chat-content" />
+            <ui:VisualElement name="image-content" />
+            <ui:VisualElement name="bgremoval-content" />
         </ui:ScrollView>
 
         <!-- Status Bar -->

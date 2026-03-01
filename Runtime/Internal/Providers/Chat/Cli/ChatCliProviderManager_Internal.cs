@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Weppy.AIProvider.Chat
+namespace Weppy.AIProvider
 {
     public partial class ChatCliProviderManager : IDisposable
     {
@@ -96,6 +96,7 @@ namespace Weppy.AIProvider.Chat
 
             Exception lastException = null;
             string lastError = null;
+            List<string> providerErrors = new List<string>();
 
             foreach (ChatCliRequestProviderTarget target in targets)
             {
@@ -103,13 +104,14 @@ namespace Weppy.AIProvider.Chat
                 if (entry == null || !IsEntryAvailable(entry, onlyEnabled_: true))
                     continue;
 
+                string model = ResolveModel(target.Model, requestParams_.RequestPayload.Model, entry.Settings?.DefaultModel);
+
                 try
                 {
                     ChatCliProviderAbstract provider = GetOrCreateProvider(entry);
                     if (provider == null)
                         continue;
 
-                    string model = ResolveModel(target.Model, requestParams_.RequestPayload.Model, entry.Settings?.DefaultModel);
                     ChatCliResponse response = await provider.SendMessageAsync(requestParams_.RequestPayload, model, cancellationToken_);
 
                     if (response.IsSuccess)
@@ -118,18 +120,38 @@ namespace Weppy.AIProvider.Chat
                         return response;
                     }
 
+                    string formattedError = FormatCliFailureMessage(
+                        entry.ProviderType,
+                        model,
+                        "ProviderError",
+                        response.ErrorMessage,
+                        isPersistent_: false);
+                    providerErrors.Add(formattedError);
+                    AIProviderLogger.LogError(formattedError);
                     lastError = response.ErrorMessage;
                 }
                 catch (OperationCanceledException)
                 {
+                    AIProviderLogger.LogWarning(FormatCliCancellationMessage(entry.ProviderType, model, isPersistent_: false));
                     return ChatCliResponse.FromError("Request was cancelled");
                 }
                 catch (Exception ex)
                 {
+                    string formattedError = FormatCliFailureMessage(
+                        entry.ProviderType,
+                        model,
+                        ex.GetType().Name,
+                        ex.Message,
+                        isPersistent_: false);
+                    providerErrors.Add(formattedError);
+                    AIProviderLogger.LogError(formattedError);
                     lastException = ex;
                     lastError = ex.Message;
                 }
             }
+
+            if (providerErrors.Count > 0)
+                AIProviderLogger.LogError($"[Chat CLI] All providers failed. Attempts: {providerErrors.Count}");
 
             return ChatCliResponse.FromError(lastError ?? lastException?.Message ?? "All providers failed");
         }
@@ -236,6 +258,7 @@ namespace Weppy.AIProvider.Chat
 
             Exception lastException = null;
             string lastError = null;
+            List<string> providerErrors = new List<string>();
 
             foreach (ChatCliRequestProviderTarget target in targets)
             {
@@ -243,13 +266,14 @@ namespace Weppy.AIProvider.Chat
                 if (entry == null || !IsEntryAvailable(entry, onlyEnabled_: true))
                     continue;
 
+                string model = ResolveModel(target.Model, requestParams_.RequestPayload.Model, entry.Settings?.DefaultModel);
+
                 try
                 {
                     ChatCliProviderAbstract provider = GetOrCreateProvider(entry);
                     if (provider == null)
                         continue;
 
-                    string model = ResolveModel(target.Model, requestParams_.RequestPayload.Model, entry.Settings?.DefaultModel);
                     ChatCliResponse response = await provider.SendPersistentMessageAsync(requestParams_.RequestPayload, model, cancellationToken_);
 
                     if (response.IsSuccess)
@@ -258,20 +282,66 @@ namespace Weppy.AIProvider.Chat
                         return response;
                     }
 
+                    string formattedError = FormatCliFailureMessage(
+                        entry.ProviderType,
+                        model,
+                        "ProviderError",
+                        response.ErrorMessage,
+                        isPersistent_: true);
+                    providerErrors.Add(formattedError);
+                    AIProviderLogger.LogError(formattedError);
                     lastError = response.ErrorMessage;
                 }
                 catch (OperationCanceledException)
                 {
+                    AIProviderLogger.LogWarning(FormatCliCancellationMessage(entry.ProviderType, model, isPersistent_: true));
                     return ChatCliResponse.FromError("Request was cancelled");
                 }
                 catch (Exception ex)
                 {
+                    string formattedError = FormatCliFailureMessage(
+                        entry.ProviderType,
+                        model,
+                        ex.GetType().Name,
+                        ex.Message,
+                        isPersistent_: true);
+                    providerErrors.Add(formattedError);
+                    AIProviderLogger.LogError(formattedError);
                     lastException = ex;
                     lastError = ex.Message;
                 }
             }
 
+            if (providerErrors.Count > 0)
+                AIProviderLogger.LogError($"[Chat CLI Stream] All providers failed. Attempts: {providerErrors.Count}");
+
             return ChatCliResponse.FromError(lastError ?? lastException?.Message ?? "All providers failed");
+        }
+
+        private string FormatCliFailureMessage(
+            ChatCliProviderType providerType_,
+            string model_,
+            string errorType_,
+            string errorMessage_,
+            bool isPersistent_)
+        {
+            string prefix = isPersistent_ ? "[Chat CLI Stream]" : "[Chat CLI]";
+            string normalizedMessage = NormalizeLogMessage(errorMessage_);
+            string normalizedErrorType = string.IsNullOrEmpty(errorType_) ? "UnknownException" : errorType_;
+            return $"{prefix} Failed - Provider: {providerType_}, Model: {model_ ?? "(default)"}, ErrorType: {normalizedErrorType}, Error: {normalizedMessage}";
+        }
+
+        private string FormatCliCancellationMessage(ChatCliProviderType providerType_, string model_, bool isPersistent_)
+        {
+            string prefix = isPersistent_ ? "[Chat CLI Stream]" : "[Chat CLI]";
+            return $"{prefix} Cancelled - Provider: {providerType_}, Model: {model_ ?? "(default)"}";
+        }
+
+        private string NormalizeLogMessage(string message_)
+        {
+            string message = message_ ?? "Unknown error";
+            message = message.Replace('\r', ' ').Replace('\n', ' ').Trim();
+            return string.IsNullOrEmpty(message) ? "Unknown error" : message;
         }
 
         private void ResetSessionInternal(ChatCliProviderType providerType_)
@@ -341,7 +411,9 @@ namespace Weppy.AIProvider.Chat
 
         private List<ChatCliRequestProviderTarget> GetOrderedTargets(List<ChatCliRequestProviderTarget> targets_, bool onlyEnabled_)
         {
-            List<ChatCliRequestProviderTarget> targets = targets_ ?? new List<ChatCliRequestProviderTarget>();
+            List<ChatCliRequestProviderTarget> targets = targets_ != null
+                ? new List<ChatCliRequestProviderTarget>(targets_)
+                : new List<ChatCliRequestProviderTarget>();
 
             if (targets.Count == 0)
             {

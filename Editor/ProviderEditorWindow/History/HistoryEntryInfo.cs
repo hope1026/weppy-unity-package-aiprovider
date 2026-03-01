@@ -1,4 +1,4 @@
-namespace Weppy.AIProvider.Chat.Editor
+namespace Weppy.AIProvider.Editor
 {
     [System.Serializable]
     public class HistoryEntryInfo

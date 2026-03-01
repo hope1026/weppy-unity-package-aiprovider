@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Weppy.AIProvider.Chat
+namespace Weppy.AIProvider
 {
     internal abstract class ChatCliProviderAbstract : IDisposable
     {

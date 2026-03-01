@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Weppy.AIProvider.Chat.Editor
+namespace Weppy.AIProvider.Editor
 {
     public class DragDropReorderController<TItemType>
     {

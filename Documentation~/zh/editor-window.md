@@ -1,22 +1,15 @@
-# Editor Window
+# 编辑器窗口
 
-可以直接在 Unity 编辑器中测试聊天。
+可以在 Unity 编辑器中直接测试功能。
 
-## 打开方式
-
-1. 在 Unity 菜单中打开 **Window > Weppy > AI Provider Chat**。
-2. 使用顶部标签：
-   - `Settings`: 配置 API Key、默认模型与选项
-   - `Chat`: 发送提示词并查看响应
+## 打开编辑器窗口
+1.  在 Unity 菜单中选择 **Window > Weppy > AI Provider**。
+2.  使用顶部标签（`Chat`、`Image`、`BgRemoval`）测试各功能。
 
 ## 基本流程
-
-1. 在 `Settings` 至少配置一个供应商。
-2. 切换到 `Chat` 标签。
-3. 选择供应商/模型并发送消息。
-4. 查看响应与用量信息。
+1.  在各标签的 Provider 区域输入 API Key。
+2.  选择模型或保存自定义模型 ID。
+3.  输入请求并执行以查看结果。
 
 ## 备注
-
-- 无需进入 Play 模式即可使用。
-- 该窗口仅用于聊天工作流。
+- 编辑器窗口无需进入 Play 模式即可使用。

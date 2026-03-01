@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Weppy.AIProvider.Chat
+namespace Weppy.AIProvider
 {
     public partial class ChatRequestPayload
     {
@@ -44,6 +44,9 @@ namespace Weppy.AIProvider.Chat
 
         private ChatRequestPayload AddMessageInternal(ChatRequestMessage requestMessageBase_)
         {
+            if (requestMessageBase_ == null)
+                return this;
+
             Messages.Add(requestMessageBase_);
             return this;
         }

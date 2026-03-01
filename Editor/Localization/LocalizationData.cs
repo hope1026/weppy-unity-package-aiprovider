@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Weppy.AIProvider.Chat.Editor
+namespace Weppy.AIProvider.Editor
 {
     [Serializable]
     public class LocalizationData

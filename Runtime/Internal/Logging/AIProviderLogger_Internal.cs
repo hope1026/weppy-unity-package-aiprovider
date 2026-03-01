@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Weppy.AIProvider.Chat
+namespace Weppy.AIProvider
 {
     public static partial class AIProviderLogger
     {

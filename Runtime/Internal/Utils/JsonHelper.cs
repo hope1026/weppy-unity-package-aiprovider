@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 
-namespace Weppy.AIProvider.Chat
+namespace Weppy.AIProvider
 {
     public static class JsonHelper
     {

@@ -1,8 +1,9 @@
+using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using UnityEngine;
 
-namespace Weppy.AIProvider.Chat.Samples
+namespace Weppy.AIProvider.Samples
 {
     public class SimpleChatSampleIMGUI : MonoBehaviour
     {
@@ -33,6 +34,7 @@ namespace Weppy.AIProvider.Chat.Samples
 
         private void InitializeProvider()
         {
+            _providerManager?.Dispose();
             _providerManager = new ChatProviderManager();
 
             ChatProviderSettings settings = new ChatProviderSettings(_apiKey)
@@ -110,28 +112,26 @@ namespace Weppy.AIProvider.Chat.Samples
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource = new CancellationTokenSource();
 
-            ChatRequest request = new ChatRequest()
+            ChatRequestPayload requestPayload = new ChatRequestPayload()
                 .AddUserMessage(_promptText);
+            requestPayload.Model = _model;
 
             if (_useStreaming)
             {
-                await SendMessageWithStreaming(request);
+                await SendMessageWithStreaming(requestPayload);
             }
             else
             {
-                await SendMessageNormal(request);
+                await SendMessageNormal(requestPayload);
             }
 
             _isLoading = false;
         }
 
-        private async System.Threading.Tasks.Task SendMessageNormal(ChatRequest request_)
+        private async System.Threading.Tasks.Task SendMessageNormal(ChatRequestPayload requestPayload_)
         {
-            ChatResponse response = await _providerManager.SendMessageWithProvidersAsync(
-                _providerType,
-                request_,
-                _cancellationTokenSource.Token
-            );
+            ChatRequestParams requestParams = BuildRequestParams(requestPayload_);
+            ChatResponse response = await _providerManager.SendMessageWithProvidersAsync(requestParams, _cancellationTokenSource.Token);
 
             if (response.IsSuccess)
             {
@@ -143,16 +143,16 @@ namespace Weppy.AIProvider.Chat.Samples
             }
         }
 
-        private async System.Threading.Tasks.Task SendMessageWithStreaming(ChatRequest request_)
+        private async System.Threading.Tasks.Task SendMessageWithStreaming(ChatRequestPayload requestPayload_)
         {
             StringBuilder contentBuilder = new StringBuilder();
             _responseText = "";
+            ChatRequestParams requestParams = BuildRequestParams(requestPayload_);
 
             try
             {
-                await _providerManager.StreamMessageFromProviderAsync(
-                    _providerType,
-                    request_,
+                await _providerManager.StreamMessageWithProvidersAsync(
+                    requestParams,
                     async (string chunk_) =>
                     {
                         contentBuilder.Append(chunk_);
@@ -174,6 +174,23 @@ namespace Weppy.AIProvider.Chat.Samples
                     ? contentBuilder.ToString() + $"\n\n[Error: {ex.Message}]"
                     : $"Error: {ex.Message}";
             }
+        }
+
+        private ChatRequestParams BuildRequestParams(ChatRequestPayload requestPayload_)
+        {
+            return new ChatRequestParams
+            {
+                RequestPayload = requestPayload_,
+                Providers = new List<ChatRequestProviderTarget>
+                {
+                    new ChatRequestProviderTarget
+                    {
+                        ProviderType = _providerType,
+                        Model = _model,
+                        Priority = 0
+                    }
+                }
+            };
         }
     }
 }

@@ -2,7 +2,7 @@ using System;
 using System.Threading;
 using UnityEditor;
 
-namespace Weppy.AIProvider.Chat.Editor
+namespace Weppy.AIProvider.Editor
 {
     /// <summary>
     /// Utility class for dispatching actions to Unity's main thread.

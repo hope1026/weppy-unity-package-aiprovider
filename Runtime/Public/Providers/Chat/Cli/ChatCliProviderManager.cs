@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Weppy.AIProvider.Chat
+namespace Weppy.AIProvider
 {
     /// <summary>
     /// Manages CLI-based chat providers and routes requests by priority.

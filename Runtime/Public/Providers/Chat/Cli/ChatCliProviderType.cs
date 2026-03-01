@@ -1,4 +1,4 @@
-namespace Weppy.AIProvider.Chat
+namespace Weppy.AIProvider
 {
     /// <summary>
     /// Supported CLI chat provider types.

@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Weppy.AIProvider.Chat
+namespace Weppy.AIProvider
 {
     internal class HttpClientWrapper : IDisposable
     {
@@ -191,7 +191,7 @@ namespace Weppy.AIProvider.Chat
         public async Task PostStreamWithCallbackAsync(
             string url_,
             Dictionary<string, object> body_,
-            Action<string> onLineReceived_,
+            Func<string, Task> onLineReceived_,
             Dictionary<string, string> headers_ = null,
             CancellationToken cancellationToken_ = default)
         {
@@ -207,6 +207,12 @@ namespace Weppy.AIProvider.Chat
 
                 using (HttpResponseMessage response = await _client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken_))
                 {
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        string errorContent = await response.Content.ReadAsStringAsync();
+                        throw new HttpRequestException($"HTTP {(int)response.StatusCode}: {errorContent}");
+                    }
+
                     Stream stream = await response.Content.ReadAsStreamAsync();
                     try
                     {
@@ -216,7 +222,7 @@ namespace Weppy.AIProvider.Chat
                             {
                                 string line = await reader.ReadLineAsync();
                                 if (!string.IsNullOrEmpty(line))
-                                    onLineReceived_(line);
+                                    await onLineReceived_(line);
                             }
                         }
                     }
@@ -248,6 +254,12 @@ namespace Weppy.AIProvider.Chat
 
                 using (HttpResponseMessage response = await _client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken_))
                 {
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        string errorContent = await response.Content.ReadAsStringAsync();
+                        throw new HttpRequestException($"HTTP {(int)response.StatusCode}: {errorContent}");
+                    }
+
                     await using (Stream stream = await response.Content.ReadAsStreamAsync())
                     using (StreamReader reader = new StreamReader(stream))
                     {

@@ -1,4 +1,4 @@
-namespace Weppy.AIProvider.Chat
+namespace Weppy.AIProvider
 {
     /// <summary>
     /// Specifies a target CLI provider, model, and priority.

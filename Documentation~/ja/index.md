@@ -1,13 +1,14 @@
-# Weppy AI Provider Chat ドキュメント
+# Weppy AI Provider ドキュメント
 
-**Weppy AI Provider Chat** のドキュメントです。
+**Weppy AI Provider** ドキュメントへようこそ。Unity プロジェクトに複数の AI プロバイダーを統合するための統一インターフェースを提供します。
 
 ## 概要
 
-Unity で複数プロバイダーのチャット機能を単一インターフェースで扱えます。API ベースのチャットと CLI ベースのチャットを同じ流れで利用できます。
+Weppy AI Provider は、チャット、画像生成、背景除去のために複数の AI サービスへ接続する作業を簡素化します。プロバイダー固有の API 差分を内部で吸収するため、コード 1 行や設定変更だけでプロバイダーを切り替えられます。
 
 ## 目次
 
-- [Getting Started](getting-started.md): インストール、設定、最初のリクエスト
-- [Chat API](chat.md): API/CLI チャットの使い方
-- [Editor Window](editor-window.md): エディター内テスト手順
+- **[はじめに](getting-started.md)**: インストール、設定、最初の API 呼び出し。
+- **[チャット](chat.md)**: チャット API の利用ガイド（OpenAI、Gemini、Claude など）。
+- **[画像生成](image-generation.md)**: DALL-E、Imagen などを使った画像生成方法。
+- **[背景除去](bg-removal.md)**: 背景除去機能の使い方。

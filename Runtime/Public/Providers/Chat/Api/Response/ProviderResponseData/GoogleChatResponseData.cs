@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Weppy.AIProvider.Chat
+namespace Weppy.AIProvider
 {
     /// <summary>
     /// Google-specific response metadata for chat responses.

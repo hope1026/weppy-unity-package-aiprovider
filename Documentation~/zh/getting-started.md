@@ -1,79 +1,54 @@
-# Getting Started
+# 快速开始
 
 ## 安装
 
-1. 在 Unity 中打开 **Window > Package Manager**。
-2. 点击左上角 **+**，选择 **Add package from git URL...**。
-3. 输入下方 Git URL，然后点击 **Add**。
+### 通过 Git URL 安装
 
-`https://github.com/hope1026/weppy-aiprovider-chat-package.git`
+1.  在 Unity 中打开 **Package Manager**（`Window > Package Manager`）。
+2.  点击 **+** 按钮并选择 **Add package from git URL...**。
+3.  粘贴以下 URL 并点击 **Add**。
 
-## 第一次 API 聊天请求
+`https://github.com/hope1026/weppy-unity-package-aiprovider.git`
 
+## 设置
+
+无需额外的设置窗口。你可以在代码中直接设置 API Key 并添加提供商。
+
+## 第一次聊天交互
+
+以下是用于验证功能是否正常的简单示例。
+
+1.  新建脚本 `HelloAI.cs`。
+2.  添加以下代码:
 ```csharp
 using UnityEngine;
-using Weppy.AIProvider.Chat;
+using Weppy.AIProvider;
 
 public class HelloAI : MonoBehaviour
 {
-    private async void Start()
+    async void Start()
     {
         using (ChatProviderManager manager = new ChatProviderManager())
         {
-            manager.AddProvider(
-                ChatProviderType.OPEN_AI,
-                new ChatProviderSettings("sk-your-api-key")
-                {
-                    DefaultModel = ChatModelPresets.OpenAI.GPT_4O_MINI
-                });
+            manager.AddProvider(ChatProviderType.OPEN_AI, new ChatProviderSettings("sk-your-api-key"));
 
             ChatRequestPayload payload = new ChatRequestPayload()
-                .WithSystemPrompt("你是一位有帮助的助手。")
-                .AddUserMessage("请用一句话打招呼。");
+                .AddUserMessage("你好！讲个简短的笑话吧。");
 
+            payload.Model = "gpt-4o";
             ChatResponse response = await manager.SendMessageAsync(payload);
             Debug.Log(response.IsSuccess ? response.Content : $"Error: {response.ErrorMessage}");
         }
     }
 }
 ```
-
-## 第一次 CLI 聊天请求
-
-```csharp
-using UnityEngine;
-using Weppy.AIProvider.Chat;
-
-public class HelloCliAI : MonoBehaviour
-{
-    private async void Start()
-    {
-        using (ChatCliProviderManager manager = new ChatCliProviderManager())
-        {
-            ChatCliProviderSettings settings = new ChatCliProviderSettings
-            {
-                UseApiKey = false,
-                CliExecutablePath = GeminiCliWrapper.FindGeminiExecutablePath(),
-                DefaultModel = GeminiCliWrapper.AUTO_MODEL_ID
-            };
-
-            manager.AddProvider(ChatCliProviderType.GEMINI_CLI, settings);
-
-            ChatCliRequestPayload payload = new ChatCliRequestPayload()
-                .AddUserMessage("请用一句话总结这个项目。");
-
-            ChatCliResponse response = await manager.SendMessageAsync(payload);
-            Debug.Log(response.IsSuccess ? response.Content : $"Error: {response.ErrorMessage}");
-        }
-    }
-}
-```
-
-## 编辑器窗口
-
-如需在编辑器中测试，请打开 `Window > Weppy > AI Provider Chat`。
+3.  将脚本挂到场景中的 GameObject 上。
+4.  点击 **Play**。
+5.  在 **Console** 中查看 AI 的回复。
 
 ## 下一步
 
-- 在 [Chat API](chat.md) 查看请求参数与流式响应
-- 在 [Editor Window](editor-window.md) 查看编辑器工作流
+- 在 [聊天功能](chat.md) 中了解流式输出与对话历史管理。
+- 试试 [图像生成](image-generation.md)。
+- 试试 [背景去除](bg-removal.md)。
+- 查看 [编辑器窗口](editor-window.md) 的使用与测试方式。

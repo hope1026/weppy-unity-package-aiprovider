@@ -4,7 +4,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine.UIElements;
 
-namespace Weppy.AIProvider.Chat.Editor
+namespace Weppy.AIProvider.Editor
 {
     public class ChatProviderSection : VisualElement
     {
@@ -58,7 +58,8 @@ namespace Weppy.AIProvider.Chat.Editor
                     ProviderOrderStorageKey = "chat_provider_order",
                     SectionUssPath = USS_PATH,
                     IsNoneProvider = providerType_ => providerType_ == ChatEditorProviderType.NONE,
-                    HasApiKey = HasProviderAuth,
+                    HasProviderAuth = HasProviderAuth,
+                    IsProviderEnabled = GetProviderEnabledStateInternal,
                     IsApiKeyOptional = IsApiKeyOptional,
                     IsApiKeyEnabled = IsApiKeyEnabled,
                     SetApiKeyEnabled = SetApiKeyEnabled,
@@ -81,7 +82,17 @@ namespace Weppy.AIProvider.Chat.Editor
                         return manager != null ? manager.GetModelsUrl(providerType_) : string.Empty;
                     },
                     NotifyProviderOrderChanged = () => OnProviderOrderChanged?.Invoke(),
-                    NotifyProviderEnabledChanged = (providerType_, enabled_) => OnProviderEnabledChanged?.Invoke(providerType_, enabled_),
+                    NotifyProviderEnabledChanged = (providerType_, enabled_) =>
+                    {
+                        if (_providerSelection.ProviderToggles.TryGetValue(providerType_, out Toggle toggle) && toggle != null)
+                        {
+                            toggle.SetValueWithoutNotify(enabled_);
+                        }
+
+                        _editorProviderManager?.SetProviderEnabled(providerType_, enabled_);
+                        UpdateSelectedModelChips();
+                        OnProviderEnabledChanged?.Invoke(providerType_, enabled_);
+                    },
                     NotifyModelChanged = (providerType_, modelId_) => OnModelChanged?.Invoke(providerType_, modelId_),
                     GetModelIdFromInfo = modelInfo_ => modelInfo_.Id,
                     GetContextWindowSize = modelInfo_ => modelInfo_.ContextWindowSize,
@@ -338,8 +349,10 @@ namespace Weppy.AIProvider.Chat.Editor
                 if (providerType == ChatEditorProviderType.NONE)
                     continue;
 
-                bool hasKey = HasProviderAuth(providerType);
-                if (!hasKey)
+                if (!HasProviderAuth(providerType))
+                    continue;
+
+                if (!GetProviderEnabledStateInternal(providerType))
                     continue;
 
                 return true;

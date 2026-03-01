@@ -1,13 +1,14 @@
-# Weppy AI Provider Chat Documentation
+# Weppy AI Provider Documentation
 
-Welcome to the **Weppy AI Provider Chat** documentation.
+Welcome to the **Weppy AI Provider** documentation. This package provides a unified interface for integrating multiple AI providers into your Unity project.
 
 ## Overview
 
-This package provides a unified chat interface for multiple AI providers in Unity. It supports both API-based chat providers and CLI-based chat providers with a consistent request/response model.
+Weppy AI Provider simplifies connecting to multiple AI services for chat, image generation, and background removal. It abstracts provider-specific API differences so you can switch providers by changing a single line of code or configuration.
 
 ## Table of Contents
 
-- [Getting Started](getting-started.md): Installation, setup, and first request.
-- [Chat API](chat.md): API chat and CLI chat usage.
-- [Editor Window](editor-window.md): In-Editor testing workflow.
+- **[Getting Started](getting-started.md)**: Installation, setup, and your first API call.
+- **[Chat](chat.md)**: Chat API usage guide (OpenAI, Gemini, Claude, etc.).
+- **[Image Generation](image-generation.md)**: How to generate images with DALL-E, Imagen, and more.
+- **[Background Removal](bg-removal.md)**: How to remove backgrounds from images.

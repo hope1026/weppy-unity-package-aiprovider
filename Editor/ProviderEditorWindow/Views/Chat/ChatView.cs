@@ -4,7 +4,7 @@ using System.Threading;
 using UnityEditor;
 using UnityEngine.UIElements;
 
-namespace Weppy.AIProvider.Chat.Editor
+namespace Weppy.AIProvider.Editor
 {
     public class ChatView : VisualElement
     {
@@ -101,6 +101,7 @@ namespace Weppy.AIProvider.Chat.Editor
 
         private void HandleAuthChanged()
         {
+            InitializeManager();
             UpdateUIState();
         }
 

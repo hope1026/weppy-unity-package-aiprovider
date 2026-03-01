@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
-using Weppy.AIProvider.Chat;
+using Weppy.AIProvider;
 
-namespace Weppy.AIProvider.Chat.Samples
+namespace Weppy.AIProvider.Samples
 {
     public class GeminiCliChatSampleIMGUI : MonoBehaviour
     {

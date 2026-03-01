@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using System.IO;
 
-namespace Weppy.AIProvider.Chat.Editor
+namespace Weppy.AIProvider.Editor
 {
     public static class ImageHelper
     {

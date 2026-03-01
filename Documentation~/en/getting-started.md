@@ -2,78 +2,53 @@
 
 ## Installation
 
-1. Open **Window > Package Manager** in Unity.
-2. Click the **+** button and select **Add package from git URL...**.
-3. Paste the URL below and click **Add**.
+### Install via Git URL
 
-`https://github.com/hope1026/weppy-aiprovider-chat-package.git`
+1.  Open the **Package Manager** window in Unity (`Window > Package Manager`).
+2.  Click the **+** button and choose **Add package from git URL...**.
+3.  Paste the URL below and click **Add**.
 
-## First API Chat Request
+`https://github.com/hope1026/weppy-unity-package-aiprovider.git`
 
+## Setup
+
+No extra settings window is required. You can set API keys and add providers directly in code.
+
+## Your First Chat Interaction
+
+A simple example to verify everything works.
+
+1.  Create a new script named `HelloAI.cs`.
+2.  Add the following code:
 ```csharp
 using UnityEngine;
-using Weppy.AIProvider.Chat;
+using Weppy.AIProvider;
 
 public class HelloAI : MonoBehaviour
 {
-    private async void Start()
+    async void Start()
     {
         using (ChatProviderManager manager = new ChatProviderManager())
         {
-            manager.AddProvider(
-                ChatProviderType.OPEN_AI,
-                new ChatProviderSettings("sk-your-api-key")
-                {
-                    DefaultModel = ChatModelPresets.OpenAI.GPT_4O_MINI
-                });
+            manager.AddProvider(ChatProviderType.OPEN_AI, new ChatProviderSettings("sk-your-api-key"));
 
             ChatRequestPayload payload = new ChatRequestPayload()
-                .WithSystemPrompt("You are a helpful assistant.")
-                .AddUserMessage("Say hello in one sentence.");
+                .AddUserMessage("Hello! Tell me a short joke.");
 
+            payload.Model = "gpt-4o";
             ChatResponse response = await manager.SendMessageAsync(payload);
             Debug.Log(response.IsSuccess ? response.Content : $"Error: {response.ErrorMessage}");
         }
     }
 }
 ```
-
-## First CLI Chat Request
-
-```csharp
-using UnityEngine;
-using Weppy.AIProvider.Chat;
-
-public class HelloCliAI : MonoBehaviour
-{
-    private async void Start()
-    {
-        using (ChatCliProviderManager manager = new ChatCliProviderManager())
-        {
-            ChatCliProviderSettings settings = new ChatCliProviderSettings
-            {
-                UseApiKey = false,
-                CliExecutablePath = GeminiCliWrapper.FindGeminiExecutablePath(),
-                DefaultModel = GeminiCliWrapper.AUTO_MODEL_ID
-            };
-
-            manager.AddProvider(ChatCliProviderType.GEMINI_CLI, settings);
-
-            ChatCliRequestPayload payload = new ChatCliRequestPayload()
-                .AddUserMessage("Summarize this project in one sentence.");
-
-            ChatCliResponse response = await manager.SendMessageAsync(payload);
-            Debug.Log(response.IsSuccess ? response.Content : $"Error: {response.ErrorMessage}");
-        }
-    }
-}
-```
-
-## Editor Window
-
-For in-Editor testing, open `Window > Weppy > AI Provider Chat`.
+3.  Attach the script to a GameObject in the scene.
+4.  Press **Play**.
+5.  Check the AI response in the **Console** window.
 
 ## Next Steps
 
-- Learn request options and streaming in [Chat API](chat.md).
-- Use the Editor workflow in [Editor Window](editor-window.md).
+- Learn about streaming and conversation history in [Chat Features](chat.md).
+- Try [Image Generation](image-generation.md).
+- Try [Background Removal](bg-removal.md).
+- Check [Editor Window](editor-window.md) for Editor usage and testing.

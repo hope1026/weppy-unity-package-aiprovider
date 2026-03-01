@@ -1,4 +1,4 @@
-namespace Weppy.AIProvider.Chat
+namespace Weppy.AIProvider
 {
     /// <summary>
     /// Image content data for a chat message.

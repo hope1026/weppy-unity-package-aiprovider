@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Weppy.AIProvider.Chat
+namespace Weppy.AIProvider
 {
     public partial class CodexCliWrapper : IDisposable
     {
@@ -562,6 +562,8 @@ namespace Weppy.AIProvider.Chat
                 {
                     additionalPaths.Add($"{homeDir}/.local/bin");
                     additionalPaths.Add($"{homeDir}/.nvm/versions/node/latest/bin");
+                    additionalPaths.Add($"{homeDir}/.bun/bin");
+                }
 #elif UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
                 string programFiles = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
                 string programFilesX86 = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);

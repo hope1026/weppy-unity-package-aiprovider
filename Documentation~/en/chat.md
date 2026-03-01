@@ -1,51 +1,49 @@
 # Chat API
 
-This package is focused on chat functionality.
+The core of Weppy AI Provider is a unified chat interface integrated with multiple large language models (LLMs).
 
-## API Providers
+## Supported Providers
 
-- OpenAI (`ChatProviderType.OPEN_AI`)
-- Google (`ChatProviderType.GOOGLE`)
-- Anthropic (`ChatProviderType.ANTHROPIC`)
-- HuggingFace (`ChatProviderType.HUGGING_FACE`)
-- OpenRouter (`ChatProviderType.OPEN_ROUTER`)
+- **OpenAI**: GPT-4, GPT-3.5 Turbo, and all available models
+- **Google**: Gemini 1.5 Pro, Flash, and all available models
+- **Anthropic**: Claude 3.5 Sonnet, Opus, Haiku, and all available models
+- **HuggingFace**: Thousands of open source models
+- **OpenRouter**: All accessible models
 
-## CLI Providers
+### CLI Providers
 
-- Codex CLI (`ChatCliProviderType.CODEX_CLI`)
-- Claude Code CLI (`ChatCliProviderType.CLAUDE_CODE_CLI`)
-- Gemini CLI (`ChatCliProviderType.GEMINI_CLI`)
+- **Codex CLI**
+- **Claude Code CLI**
+- **Gemini CLI**
 
-## Basic API Usage
+## Basic Usage
+
+To send a message, create a `ChatRequestPayload` and pass it to `ChatProviderManager`.
 
 ```csharp
 using UnityEngine;
-using Weppy.AIProvider.Chat;
+using Weppy.AIProvider;
 
 using (ChatProviderManager manager = new ChatProviderManager())
 {
-    manager.AddProvider(
-        ChatProviderType.OPEN_AI,
-        new ChatProviderSettings("sk-your-api-key")
-        {
-            DefaultModel = ChatModelPresets.OpenAI.GPT_4O_MINI
-        });
+    manager.AddProvider(ChatProviderType.OPEN_AI, new ChatProviderSettings("sk-your-api-key"));
 
     ChatRequestPayload payload = new ChatRequestPayload()
-        .WithSystemPrompt("You are a concise assistant.")
-        .AddUserMessage("Explain this in one line.");
+        .WithSystemPrompt("You are a helpful assistant.")
+        .AddUserMessage("Explain quantum mechanics in 5 words.");
 
+    payload.Model = "gpt-4o";
     ChatResponse response = await manager.SendMessageAsync(payload);
     Debug.Log(response.IsSuccess ? response.Content : response.ErrorMessage);
 }
 ```
 
-## Streaming (API)
+## Streaming Responses
+
+For real-time feedback (typing effect, etc.), use `StreamMessageAsync`. You will receive text chunks in the callback.
 
 ```csharp
-using System.Text;
-using System.Threading.Tasks;
-using Weppy.AIProvider.Chat;
+using Weppy.AIProvider;
 
 using (ChatProviderManager manager = new ChatProviderManager())
 {
@@ -54,55 +52,41 @@ using (ChatProviderManager manager = new ChatProviderManager())
     ChatRequestPayload payload = new ChatRequestPayload()
         .AddUserMessage("Write a short poem.");
 
-    StringBuilder builder = new StringBuilder();
-
-    await manager.StreamMessageAsync(payload, (string chunk) =>
-    {
-        builder.Append(chunk);
-        return Task.CompletedTask;
-    });
+    payload.Model = "claude-3-opus";
+    await manager.StreamMessageAsync(
+        payload,
+        (string chunk) =>
+        {
+            myTextField.text += chunk;
+            return System.Threading.Tasks.Task.CompletedTask;
+        });
 }
 ```
 
-## Conversation History
+## Managing Conversation History
 
-Reuse the same `ChatRequestPayload` and append messages to keep context.
-
-```csharp
-ChatRequestPayload payload = new ChatRequestPayload();
-payload.AddUserMessage("What is the capital of France?");
-
-ChatResponse first = await manager.SendMessageAsync(payload);
-payload.AddAssistantMessage(first.Content);
-payload.AddUserMessage("How many people live there?");
-
-ChatResponse second = await manager.SendMessageAsync(payload);
-```
-
-## Basic CLI Usage
+`ChatRequestPayload` manages conversation history. To preserve context, keep adding messages to the same payload object.
 
 ```csharp
-using Weppy.AIProvider.Chat;
-
-using (ChatCliProviderManager manager = new ChatCliProviderManager())
+using (ChatProviderManager manager = new ChatProviderManager())
 {
-    ChatCliProviderSettings settings = new ChatCliProviderSettings
-    {
-        UseApiKey = false,
-        CliExecutablePath = GeminiCliWrapper.FindGeminiExecutablePath(),
-        DefaultModel = GeminiCliWrapper.AUTO_MODEL_ID
-    };
+    manager.AddProvider(ChatProviderType.GOOGLE, new ChatProviderSettings("sk-your-api-key"));
 
-    manager.AddProvider(ChatCliProviderType.GEMINI_CLI, settings);
+    ChatRequestPayload payload = new ChatRequestPayload();
+    payload.AddUserMessage("What is the capital of France?");
 
-    ChatCliRequestPayload payload = new ChatCliRequestPayload()
-        .AddUserMessage("List 3 testing tips.");
-
-    ChatCliResponse response = await manager.SendMessageAsync(payload);
+    payload.Model = "gemini-1.5-pro";
+    ChatResponse response1 = await manager.SendMessageAsync(payload);
+    payload.AddAssistantMessage(response1.Content);
+    payload.AddUserMessage("How many people live there?");
+    ChatResponse response2 = await manager.SendMessageAsync(payload);
 }
 ```
 
-## Notes
+## Custom Model IDs
 
-- `ChatProviderManager` selects the highest-priority available provider when no explicit targets are given.
-- For CLI-based long conversations, use `SendPersistentMessageAsync` and `ResetSession`.
+You are not limited to hardcoded model lists. When a provider releases a new model, you can use the model ID string directly.
+
+- **OpenAI**: `gpt-4-turbo`, `gpt-4o`
+- **Anthropic**: `claude-3-5-sonnet-20240620`
+- **Google**: `gemini-1.5-pro`

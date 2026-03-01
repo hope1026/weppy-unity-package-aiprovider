@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Weppy.AIProvider.Chat
+namespace Weppy.AIProvider
 {
     /// <summary>
     /// Represents a chat request payload with messages and options.

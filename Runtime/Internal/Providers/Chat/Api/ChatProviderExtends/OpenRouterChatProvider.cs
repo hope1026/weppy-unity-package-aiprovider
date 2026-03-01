@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Weppy.AIProvider.Chat
+namespace Weppy.AIProvider
 {
     internal class OpenRouterChatProvider : ChatProviderAbstract
     {
@@ -146,10 +146,9 @@ namespace Weppy.AIProvider.Chat
 
             await _httpClient.PostStreamWithCallbackAsync(url, body, async line =>
             {
-                if (string.IsNullOrEmpty(line) || !line.StartsWith("options: "))
+                if (!TryExtractSseData(line, out string data))
                     return;
 
-                string data = line.Substring(6);
                 if (data == "[DONE]")
                     return;
 
@@ -199,6 +198,9 @@ namespace Weppy.AIProvider.Chat
 
             foreach (ChatRequestMessage msg in requestPayload_.Messages)
             {
+                if (msg == null)
+                    continue;
+
                 Dictionary<string, object> message = new Dictionary<string, object>
                 {
                     ["role"] = msg.GetRoleString()
@@ -217,11 +219,13 @@ namespace Weppy.AIProvider.Chat
                                 ["text"] = part.Text
                             });
                         }
-                        else if (part.Type == "image" && part.Image != null)
+                        else if (IsImageContentPart(part.Type) && part.Image != null)
                         {
                             string imageUrl = !string.IsNullOrEmpty(part.Image.Url)
                                 ? part.Image.Url
-                                : $"options:{part.Image.MediaType};base64,{part.Image.Base64Data}";
+                                : BuildDataUrl(part.Image.MediaType, part.Image.Base64Data);
+                            if (string.IsNullOrEmpty(imageUrl))
+                                continue;
 
                             contentParts.Add(new Dictionary<string, object>
                             {

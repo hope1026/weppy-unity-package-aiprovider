@@ -1,0 +1,203 @@
+/* Background Removal Results Section Styles */
+
+.results-container {
+    flex-grow: 1;
+    flex-shrink: 1;
+    min-height: var(--weppy-size-min-height-results);
+    margin-top: 2px;
+    margin-bottom: 2px;
+    overflow: hidden;
+}
+
+.scroll-view {
+    flex-grow: 1;
+}
+
+.results-scroll {
+    flex-grow: 1;
+    min-height: var(--weppy-size-min-height-results);
+}
+
+.results-header-row {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.header-actions {
+    flex-direction: row;
+    align-items: center;
+}
+
+.history-controls {
+    flex-direction: row;
+    align-items: center;
+}
+
+.history-label {
+    height: var(--weppy-label-height-md);
+    padding: var(--weppy-label-padding-md);
+    font-size: var(--weppy-label-font-size-md);
+    color: rgba(255, 255, 255, 0.6);
+    margin-right: 6px;
+}
+
+.history-dropdown {
+    height: var(--weppy-dropdown-height-md);
+    padding: var(--weppy-dropdown-padding-md);
+    font-size: var(--weppy-dropdown-font-size-md);
+    border-radius: var(--weppy-dropdown-border-radius-md);
+    background-color: var(--weppy-dropdown-color-bg);
+    color: var(--weppy-dropdown-color-text);
+    border-width: 1px;
+    border-color:  var(--weppy-dropdown-color-border);
+    margin-right: 6px;
+}
+
+.history-dropdown:hover {
+    background-color: var(--weppy-dropdown-color-bg-hover);
+    border-color:  var(--weppy-dropdown-color-border-hover);
+}
+
+.history-dropdown > .unity-base-popup-field__input {
+    background-color: var(--weppy-dropdown-color-bg);
+    color: var(--weppy-dropdown-color-text);
+}
+
+.history-load-button {
+    height: var(--weppy-button-height-md);
+    padding: var(--weppy-button-padding-md);
+    font-size: var(--weppy-button-font-size-md);
+    border-radius: var(--weppy-button-border-radius-md);
+    background-color: var(--weppy-button-color-neutral-bg);
+    color: var(--weppy-button-color-neutral-text);
+}
+
+.history-load-button:hover {
+    background-color: var(--weppy-button-color-neutral-bg-hover);
+}
+
+.clear-results-button {
+    height: var(--weppy-button-height-md);
+    padding: var(--weppy-button-padding-md);
+    font-size: var(--weppy-button-font-size-md);
+    border-radius: var(--weppy-button-border-radius-md);
+    background-color: var(--weppy-button-color-neutral-bg);
+    color: var(--weppy-button-color-neutral-text);
+}
+
+.clear-results-button:hover {
+    background-color: var(--weppy-button-color-neutral-bg-hover);
+}
+
+.result-entry {
+    margin-bottom: 12px;
+    padding: 8px;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+}
+
+.result-header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.result-provider-name {
+    font-size: 12px;
+    -unity-font-style: bold;
+}
+
+.result-timestamp {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-left: 8px;
+}
+
+.result-status {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+.result-status.success {
+    background-color: rgba(60, 150, 60, 0.8);
+    color: white;
+}
+
+.result-status.error {
+    background-color: rgba(180, 60, 60, 0.8);
+    color: white;
+}
+
+.result-status.loading {
+    background-color: rgba(180, 180, 80, 0.8);
+    color: white;
+}
+
+.result-content {
+    white-space: normal;
+    padding: 8px;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    min-height: var(--weppy-size-min-height-result-content);
+}
+
+.result-image-container {
+    margin-top: 8px;
+    padding: 8px;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    align-items: center;
+}
+
+.before-after-container {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+}
+
+.image-section {
+    margin: 4px 8px;
+    align-items: center;
+}
+
+.image-section-label {
+    font-size: 11px;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 4px;
+    -unity-text-align: middle-center;
+    padding: 2px 8px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+}
+
+.result-image-wrapper {
+    align-self: center;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.result-image {
+    max-width: 400px;
+    max-height: 400px;
+    align-self: center;
+}
+
+.save-image-button {
+    margin-top: 8px;
+    align-self: center;
+}
+
+.error-label {
+    color: rgba(255, 100, 100, 1);
+    font-size: 11px;
+    white-space: normal;
+}
