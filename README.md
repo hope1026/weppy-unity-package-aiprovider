@@ -41,14 +41,7 @@ Language: [English](Documentation~/en/README.md) | [한국어](Documentation~/ko
 
 ## Installation
 
-### Unity Asset Store
-
-1. Purchase or add the asset to your library from the Unity Asset Store.
-2. In Unity, go to **Window > Package Manager**.
-3. Select **My Assets** from the top-left dropdown.
-4. Search for "Weppy AI Provider" and click **Download**, then **Import**.
-
-### Git URL
+### Git URL (Recommended)
 
 1. In Unity, open **Window > Package Manager**.
 2. Click the **+** button and select **Add package from git URL...**.
@@ -104,4 +97,4 @@ See `Documentation~` for full guides.
 
 ## License
 
-This package is distributed under the Unity Asset Store EULA.
+See [LICENSE.md](LICENSE.md) for license details.

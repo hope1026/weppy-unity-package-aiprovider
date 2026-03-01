@@ -2,12 +2,13 @@
 
 ## Installation
 
-### Install via Unity Asset Store
+### Install via Git URL
 
 1.  Open the **Package Manager** window in Unity (`Window > Package Manager`).
-2.  Switch to the **My Assets** tab.
-3.  Search for **Weppy AI Provider**.
-4.  Click **Download**, then **Import**.
+2.  Click the **+** button and choose **Add package from git URL...**.
+3.  Paste the URL below and click **Add**.
+
+`https://github.com/hope1026/weppy-unity-package-aiprovider.git`
 
 ## Setup
 

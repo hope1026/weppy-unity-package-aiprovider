@@ -39,13 +39,6 @@ Chat, 이미지 생성, 배경 제거를 위해 여러 AI 공급자(OpenAI, Goog
 
 ## 설치 방법
 
-### Unity Asset Store
-
-1. Unity Asset Store에서 에셋을 구매하거나 라이브러리에 추가합니다.
-2. Unity에서 **Window > Package Manager**를 엽니다.
-3. 좌측 상단 드롭다운에서 **My Assets**를 선택합니다.
-4. "Weppy AI Provider"를 검색한 뒤 **Download**를 클릭하고, 이어서 **Import**를 클릭합니다.
-
 ### Git URL
 
 1. Unity에서 **Window > Package Manager**를 엽니다.
@@ -100,4 +93,4 @@ public class HelloAI : MonoBehaviour
 
 ## 라이선스
 
-이 패키지는 Unity Asset Store EULA에 따라 배포됩니다.
+[LICENSE.md](../../LICENSE.md)에서 라이선스 정보를 확인하세요.

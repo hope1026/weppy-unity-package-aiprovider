@@ -2,12 +2,13 @@
 
 ## インストール
 
-### Unity Asset Store からインストール
+### Git URL でインストール
 
 1.  Unity で **Package Manager** ウィンドウを開きます（`Window > Package Manager`）。
-2.  **My Assets** タブに切り替えます。
-3.  **Weppy AI Provider** を検索します。
-4.  **Download** をクリックし、続けて **Import** をクリックします。
+2.  **+** ボタンをクリックし、**Add package from git URL...** を選択します。
+3.  以下の URL を貼り付けて **Add** をクリックします。
+
+`https://github.com/hope1026/weppy-unity-package-aiprovider.git`
 
 ## セットアップ
 

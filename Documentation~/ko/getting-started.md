@@ -2,12 +2,13 @@
 
 ## 설치 (Installation)
 
-### 유니티 에셋 스토어를 통해 설치
+### Git URL로 설치
 
 1.  유니티에서 **Package Manager** 창을 엽니다 (`Window > Package Manager`).
-2.  **My Assets** 탭으로 전환합니다.
-3.  **Weppy AI Provider**를 검색합니다.
-4.  **Download**를 클릭한 후 **Import**를 클릭합니다.
+2.  **+** 버튼을 클릭하고 **Add package from git URL...**을 선택합니다.
+3.  아래 URL을 붙여넣고 **Add**를 클릭합니다.
+
+`https://github.com/hope1026/weppy-unity-package-aiprovider.git`
 
 ## 설정 (Setup)
 

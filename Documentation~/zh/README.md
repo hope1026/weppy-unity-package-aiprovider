@@ -39,13 +39,6 @@
 
 ## 安装
 
-### Unity Asset Store
-
-1. 从 Unity Asset Store 购买或添加到你的库中。
-2. 在 Unity 中打开 **Window > Package Manager**。
-3. 在左上角下拉菜单选择 **My Assets**。
-4. 搜索 "Weppy AI Provider"，点击 **Download**，然后点击 **Import**。
-
 ### Git URL
 
 1. 在 Unity 中打开 **Window > Package Manager**。
@@ -100,4 +93,4 @@ public class HelloAI : MonoBehaviour
 
 ## 许可
 
-此包在 Unity Asset Store EULA 下发布。
+许可证详情请参阅 [LICENSE.md](../../LICENSE.md)。
