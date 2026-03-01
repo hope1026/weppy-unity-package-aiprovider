@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Weppy.AIProvider.Chat
+namespace Weppy.AIProvider
 {
     internal class CodexCliResponseResult
     {

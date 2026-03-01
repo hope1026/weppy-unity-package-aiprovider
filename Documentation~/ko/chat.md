@@ -1,108 +1,92 @@
-# 채팅 API
+# 채팅 API (Chat API)
 
-이 패키지는 채팅 기능에 집중되어 있습니다.
+Weppy AI Provider의 핵심 기능은 다양한 대규모 언어 모델(LLM)과 통합된 채팅 인터페이스입니다.
 
-## API 공급자
+## 지원하는 공급자 (Supported Providers)
 
-- OpenAI (`ChatProviderType.OPEN_AI`)
-- Google (`ChatProviderType.GOOGLE`)
-- Anthropic (`ChatProviderType.ANTHROPIC`)
-- HuggingFace (`ChatProviderType.HUGGING_FACE`)
-- OpenRouter (`ChatProviderType.OPEN_ROUTER`)
+- **OpenAI**: GPT-4, GPT-3.5 Turbo 등 모든 모델
+- **Google**: Gemini 1.5 Pro, Flash 등 모든 모델
+- **Anthropic**: Claude 3.5 Sonnet, Opus, Haiku 등 모든 모델
+- **HuggingFace**: 수천 개의 오픈 소스 모델
+- **OpenRouter**: 접근 가능한 모든 모델
 
-## CLI 공급자
+### CLI 공급자 (CLI Providers)
 
-- Codex CLI (`ChatCliProviderType.CODEX_CLI`)
-- Claude Code CLI (`ChatCliProviderType.CLAUDE_CODE_CLI`)
-- Gemini CLI (`ChatCliProviderType.GEMINI_CLI`)
+- **Codex CLI**
+- **Claude Code CLI**
+- **Gemini CLI**
 
-## API 기본 사용
+## 기본 사용법 (Basic Usage)
+
+메시지를 보내려면 `ChatRequestPayload`를 생성하고 `ChatProviderManager`에 전달합니다.
 
 ```csharp
 using UnityEngine;
-using Weppy.AIProvider.Chat;
+using Weppy.AIProvider;
 
 using (ChatProviderManager manager = new ChatProviderManager())
 {
-    manager.AddProvider(
-        ChatProviderType.OPEN_AI,
-        new ChatProviderSettings("sk-your-api-key")
-        {
-            DefaultModel = ChatModelPresets.OpenAI.GPT_4O_MINI
-        });
+    manager.AddProvider(ChatProviderType.OPEN_AI, new ChatProviderSettings("sk-your-api-key"));
 
     ChatRequestPayload payload = new ChatRequestPayload()
-        .WithSystemPrompt("당신은 간결한 비서입니다.")
-        .AddUserMessage("이 내용을 한 줄로 설명해줘.");
+        .WithSystemPrompt("당신은 도움이 되는 비서입니다.")
+        .AddUserMessage("양자 역학을 5단어로 설명해줘.");
 
+    payload.Model = "gpt-4o";
     ChatResponse response = await manager.SendMessageAsync(payload);
     Debug.Log(response.IsSuccess ? response.Content : response.ErrorMessage);
 }
 ```
 
-## 스트리밍 (API)
+## 스트리밍 응답 (Streaming Responses)
+
+실시간 피드백(타이핑 효과 등)을 위해 `StreamMessageAsync`를 사용하세요. 콜백으로 텍스트 청크를 받습니다.
 
 ```csharp
-using System.Text;
-using System.Threading.Tasks;
-using Weppy.AIProvider.Chat;
+using Weppy.AIProvider;
 
 using (ChatProviderManager manager = new ChatProviderManager())
 {
     manager.AddProvider(ChatProviderType.ANTHROPIC, new ChatProviderSettings("sk-your-api-key"));
 
     ChatRequestPayload payload = new ChatRequestPayload()
-        .AddUserMessage("짧은 시를 써줘.");
+        .AddUserMessage("짧은 시를 하나 써줘.");
 
-    StringBuilder builder = new StringBuilder();
-
-    await manager.StreamMessageAsync(payload, (string chunk) =>
-    {
-        builder.Append(chunk);
-        return Task.CompletedTask;
-    });
+    payload.Model = "claude-3-opus";
+    await manager.StreamMessageAsync(
+        payload,
+        (string chunk) =>
+        {
+            myTextField.text += chunk;
+            return System.Threading.Tasks.Task.CompletedTask;
+        });
 }
 ```
 
-## 대화 기록 유지
+## 대화 기록 관리 (Managing Conversation History)
 
-같은 `ChatRequestPayload` 객체에 메시지를 계속 추가하면 문맥을 유지할 수 있습니다.
-
-```csharp
-ChatRequestPayload payload = new ChatRequestPayload();
-payload.AddUserMessage("프랑스 수도는 어디야?");
-
-ChatResponse first = await manager.SendMessageAsync(payload);
-payload.AddAssistantMessage(first.Content);
-payload.AddUserMessage("인구는 얼마나 돼?");
-
-ChatResponse second = await manager.SendMessageAsync(payload);
-```
-
-## CLI 기본 사용
+`ChatRequestPayload`는 대화 기록을 유지 관리합니다. 문맥을 유지하려면 동일한 payload 객체에 메시지를 계속 추가하면 됩니다.
 
 ```csharp
-using Weppy.AIProvider.Chat;
-
-using (ChatCliProviderManager manager = new ChatCliProviderManager())
+using (ChatProviderManager manager = new ChatProviderManager())
 {
-    ChatCliProviderSettings settings = new ChatCliProviderSettings
-    {
-        UseApiKey = false,
-        CliExecutablePath = GeminiCliWrapper.FindGeminiExecutablePath(),
-        DefaultModel = GeminiCliWrapper.AUTO_MODEL_ID
-    };
+    manager.AddProvider(ChatProviderType.GOOGLE, new ChatProviderSettings("sk-your-api-key"));
 
-    manager.AddProvider(ChatCliProviderType.GEMINI_CLI, settings);
+    ChatRequestPayload payload = new ChatRequestPayload();
+    payload.AddUserMessage("프랑스의 수도는 어디야?");
 
-    ChatCliRequestPayload payload = new ChatCliRequestPayload()
-        .AddUserMessage("테스트 팁 3가지를 알려줘.");
-
-    ChatCliResponse response = await manager.SendMessageAsync(payload);
+    payload.Model = "gemini-1.5-pro";
+    ChatResponse response1 = await manager.SendMessageAsync(payload);
+    payload.AddAssistantMessage(response1.Content);
+    payload.AddUserMessage("그곳의 인구는 얼마나 돼?");
+    ChatResponse response2 = await manager.SendMessageAsync(payload);
 }
 ```
 
-## 참고
+## 커스텀 모델 ID (Custom Model IDs)
 
-- 대상 공급자를 지정하지 않으면 `ChatProviderManager`는 사용 가능한 최고 우선순위 공급자를 선택합니다.
-- CLI 장문 대화는 `SendPersistentMessageAsync`와 `ResetSession` 사용을 권장합니다.
+하드코딩된 모델 목록에 제한되지 않습니다. 공급자가 새로운 모델을 출시하면, 해당 모델의 ID 문자열을 직접 사용하여 바로 접근할 수 있습니다.
+
+- **OpenAI**: `gpt-4-turbo`, `gpt-4o`
+- **Anthropic**: `claude-3-5-sonnet-20240620`
+- **Google**: `gemini-1.5-pro`

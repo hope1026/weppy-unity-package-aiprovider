@@ -1,0 +1,771 @@
+{
+  "imageProviders": [
+    {
+      "provider": "OPEN_AI",
+      "modelsUrl": "https://platform.openai.com/docs/models#gpt-image-1",
+      "models": [
+        {
+          "id": "gpt-image-1",
+          "displayName": "GPT Image 1",
+          "descriptions": [
+            {
+              "languageCode": "ko",
+              "value": "최신 플래그십"
+            },
+            {
+              "languageCode": "en",
+              "value": "Latest flagship"
+            },
+            {
+              "languageCode": "ja",
+              "value": "最新フラッグシップ"
+            },
+            {
+              "languageCode": "zh",
+              "value": "最新旗舰"
+            }
+          ],
+          "infoUrl": "https://platform.openai.com/docs/models#gpt-image-1",
+          "options": [
+            {
+              "type": "SIZE",
+              "labels": [
+                {
+                  "languageCode": "ko",
+                  "value": "이미지 크기"
+                },
+                {
+                  "languageCode": "en",
+                  "value": "Image Size"
+                },
+                {
+                  "languageCode": "ja",
+                  "value": "画像サイズ"
+                },
+                {
+                  "languageCode": "zh",
+                  "value": "图像尺寸"
+                }
+              ],
+              "tooltips": [
+                {
+                  "languageCode": "ko",
+                  "value": "생성할 이미지의 픽셀 크기를 선택합니다"
+                },
+                {
+                  "languageCode": "en",
+                  "value": "Select the pixel dimensions of the generated image"
+                },
+                {
+                  "languageCode": "ja",
+                  "value": "生成する画像のピクセルサイズを選択します"
+                },
+                {
+                  "languageCode": "zh",
+                  "value": "选择生成图像的像素尺寸"
+                }
+              ],
+              "apiParameterName": "size",
+              "values": [
+                {
+                  "value": "1024x1024",
+                  "displayName": "1024x1024",
+                  "descriptions": [
+                    {
+                      "languageCode": "ko",
+                      "value": "정사각형 (기본)"
+                    },
+                    {
+                      "languageCode": "en",
+                      "value": "Square (default)"
+                    },
+                    {
+                      "languageCode": "ja",
+                      "value": "正方形（デフォルト）"
+                    },
+                    {
+                      "languageCode": "zh",
+                      "value": "正方形（默认）"
+                    }
+                  ],
+                  "isDefault": true
+                },
+                {
+                  "value": "1024x1536",
+                  "displayName": "1024x1536",
+                  "descriptions": [
+                    {
+                      "languageCode": "ko",
+                      "value": "세로형"
+                    },
+                    {
+                      "languageCode": "en",
+                      "value": "Portrait"
+                    },
+                    {
+                      "languageCode": "ja",
+                      "value": "縦長"
+                    },
+                    {
+                      "languageCode": "zh",
+                      "value": "纵向"
+                    }
+                  ]
+                },
+                {
+                  "value": "1536x1024",
+                  "displayName": "1536x1024",
+                  "descriptions": [
+                    {
+                      "languageCode": "ko",
+                      "value": "가로형"
+                    },
+                    {
+                      "languageCode": "en",
+                      "value": "Landscape"
+                    },
+                    {
+                      "languageCode": "ja",
+                      "value": "横長"
+                    },
+                    {
+                      "languageCode": "zh",
+                      "value": "横向"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "QUALITY",
+              "labels": [
+                {
+                  "languageCode": "ko",
+                  "value": "품질"
+                },
+                {
+                  "languageCode": "en",
+                  "value": "Quality"
+                },
+                {
+                  "languageCode": "ja",
+                  "value": "品質"
+                },
+                {
+                  "languageCode": "zh",
+                  "value": "质量"
+                }
+              ],
+              "tooltips": [
+                {
+                  "languageCode": "ko",
+                  "value": "high는 더 세밀한 이미지를 생성합니다"
+                },
+                {
+                  "languageCode": "en",
+                  "value": "High produces more detailed images"
+                },
+                {
+                  "languageCode": "ja",
+                  "value": "Highはより詳細な画像を生成します"
+                },
+                {
+                  "languageCode": "zh",
+                  "value": "High生成更细致的图像"
+                }
+              ],
+              "apiParameterName": "quality",
+              "values": [
+                {
+                  "value": "auto",
+                  "displayName": "Auto",
+                  "descriptions": [
+                    {
+                      "languageCode": "ko",
+                      "value": "자동 선택"
+                    },
+                    {
+                      "languageCode": "en",
+                      "value": "Auto select"
+                    },
+                    {
+                      "languageCode": "ja",
+                      "value": "自動選択"
+                    },
+                    {
+                      "languageCode": "zh",
+                      "value": "自动选择"
+                    }
+                  ],
+                  "isDefault": true
+                },
+                {
+                  "value": "low",
+                  "displayName": "Low",
+                  "descriptions": [
+                    {
+                      "languageCode": "ko",
+                      "value": "낮은 품질, 빠름"
+                    },
+                    {
+                      "languageCode": "en",
+                      "value": "Low quality, faster"
+                    },
+                    {
+                      "languageCode": "ja",
+                      "value": "低品質、高速"
+                    },
+                    {
+                      "languageCode": "zh",
+                      "value": "低质量，更快"
+                    }
+                  ]
+                },
+                {
+                  "value": "medium",
+                  "displayName": "Medium",
+                  "descriptions": [
+                    {
+                      "languageCode": "ko",
+                      "value": "중간 품질"
+                    },
+                    {
+                      "languageCode": "en",
+                      "value": "Medium quality"
+                    },
+                    {
+                      "languageCode": "ja",
+                      "value": "中品質"
+                    },
+                    {
+                      "languageCode": "zh",
+                      "value": "中等质量"
+                    }
+                  ]
+                },
+                {
+                  "value": "high",
+                  "displayName": "High",
+                  "descriptions": [
+                    {
+                      "languageCode": "ko",
+                      "value": "고품질, 느림"
+                    },
+                    {
+                      "languageCode": "en",
+                      "value": "High quality, slower"
+                    },
+                    {
+                      "languageCode": "ja",
+                      "value": "高品質、低速"
+                    },
+                    {
+                      "languageCode": "zh",
+                      "value": "高质量，更慢"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "pricePerImage": "$0.04~0.17/image"
+        }
+      ]
+    },
+    {
+      "provider": "GOOGLE_GEMINI",
+      "modelsUrl": "https://ai.google.dev/gemini-api/docs/models/gemini",
+      "models": [
+        {
+          "id": "gemini-2.5-flash-image",
+          "displayName": "Gemini 2.5 Flash Image",
+          "descriptions": [
+            {
+              "languageCode": "ko",
+              "value": "빠른 이미지 생성"
+            },
+            {
+              "languageCode": "en",
+              "value": "Fast image generation"
+            },
+            {
+              "languageCode": "ja",
+              "value": "高速画像生成"
+            },
+            {
+              "languageCode": "zh",
+              "value": "快速图像生成"
+            }
+          ],
+          "infoUrl": "https://ai.google.dev/gemini-api/docs/models/gemini",
+          "options": [
+            {
+              "type": "ASPECT_RATIO",
+              "labels": [
+                {
+                  "languageCode": "ko",
+                  "value": "종횡비"
+                },
+                {
+                  "languageCode": "en",
+                  "value": "Aspect Ratio"
+                },
+                {
+                  "languageCode": "ja",
+                  "value": "アスペクト比"
+                },
+                {
+                  "languageCode": "zh",
+                  "value": "纵横比"
+                }
+              ],
+              "tooltips": [
+                {
+                  "languageCode": "ko",
+                  "value": "이미지의 가로세로 비율을 선택합니다"
+                },
+                {
+                  "languageCode": "en",
+                  "value": "Select the width to height ratio of the image"
+                },
+                {
+                  "languageCode": "ja",
+                  "value": "画像の縦横比を選択します"
+                },
+                {
+                  "languageCode": "zh",
+                  "value": "选择图像的宽高比"
+                }
+              ],
+              "apiParameterName": "aspectRatio",
+              "values": [
+                {
+                  "value": "1:1",
+                  "displayName": "1:1",
+                  "descriptions": [
+                    {
+                      "languageCode": "ko",
+                      "value": "정사각형"
+                    },
+                    {
+                      "languageCode": "en",
+                      "value": "Square"
+                    },
+                    {
+                      "languageCode": "ja",
+                      "value": "正方形"
+                    },
+                    {
+                      "languageCode": "zh",
+                      "value": "正方形"
+                    }
+                  ],
+                  "isDefault": true
+                },
+                {
+                  "value": "16:9",
+                  "displayName": "16:9",
+                  "descriptions": [
+                    {
+                      "languageCode": "ko",
+                      "value": "와이드스크린"
+                    },
+                    {
+                      "languageCode": "en",
+                      "value": "Widescreen"
+                    },
+                    {
+                      "languageCode": "ja",
+                      "value": "ワイドスクリーン"
+                    },
+                    {
+                      "languageCode": "zh",
+                      "value": "宽屏"
+                    }
+                  ]
+                },
+                {
+                  "value": "9:16",
+                  "displayName": "9:16",
+                  "descriptions": [
+                    {
+                      "languageCode": "ko",
+                      "value": "세로형 (모바일)"
+                    },
+                    {
+                      "languageCode": "en",
+                      "value": "Portrait (mobile)"
+                    },
+                    {
+                      "languageCode": "ja",
+                      "value": "縦長（モバイル）"
+                    },
+                    {
+                      "languageCode": "zh",
+                      "value": "纵向（移动端）"
+                    }
+                  ]
+                },
+                {
+                  "value": "4:3",
+                  "displayName": "4:3",
+                  "descriptions": [
+                    {
+                      "languageCode": "ko",
+                      "value": "표준"
+                    },
+                    {
+                      "languageCode": "en",
+                      "value": "Standard"
+                    },
+                    {
+                      "languageCode": "ja",
+                      "value": "標準"
+                    },
+                    {
+                      "languageCode": "zh",
+                      "value": "标准"
+                    }
+                  ]
+                },
+                {
+                  "value": "3:4",
+                  "displayName": "3:4",
+                  "descriptions": [
+                    {
+                      "languageCode": "ko",
+                      "value": "세로 표준"
+                    },
+                    {
+                      "languageCode": "en",
+                      "value": "Portrait standard"
+                    },
+                    {
+                      "languageCode": "ja",
+                      "value": "縦長標準"
+                    },
+                    {
+                      "languageCode": "zh",
+                      "value": "纵向标准"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "RESOLUTION",
+              "labels": [
+                {
+                  "languageCode": "ko",
+                  "value": "해상도"
+                },
+                {
+                  "languageCode": "en",
+                  "value": "Resolution"
+                },
+                {
+                  "languageCode": "ja",
+                  "value": "解像度"
+                },
+                {
+                  "languageCode": "zh",
+                  "value": "分辨率"
+                }
+              ],
+              "tooltips": [
+                {
+                  "languageCode": "ko",
+                  "value": "출력 이미지 해상도"
+                },
+                {
+                  "languageCode": "en",
+                  "value": "Output image resolution"
+                },
+                {
+                  "languageCode": "ja",
+                  "value": "出力画像解像度"
+                },
+                {
+                  "languageCode": "zh",
+                  "value": "输出图像分辨率"
+                }
+              ],
+              "apiParameterName": "outputResolution",
+              "values": [
+                {
+                  "value": "1K",
+                  "displayName": "1K",
+                  "descriptions": [
+                    {
+                      "languageCode": "ko",
+                      "value": "1024px"
+                    },
+                    {
+                      "languageCode": "en",
+                      "value": "1024px"
+                    },
+                    {
+                      "languageCode": "ja",
+                      "value": "1024px"
+                    },
+                    {
+                      "languageCode": "zh",
+                      "value": "1024像素"
+                    }
+                  ],
+                  "isDefault": true
+                },
+                {
+                  "value": "2K",
+                  "displayName": "2K",
+                  "descriptions": [
+                    {
+                      "languageCode": "ko",
+                      "value": "2048px"
+                    },
+                    {
+                      "languageCode": "en",
+                      "value": "2048px"
+                    },
+                    {
+                      "languageCode": "ja",
+                      "value": "2048px"
+                    },
+                    {
+                      "languageCode": "zh",
+                      "value": "2048像素"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "pricePerImage": "$0.01/image"
+        }
+      ]
+    },
+    {
+      "provider": "GOOGLE_IMAGEN",
+      "modelsUrl": "https://ai.google.dev/gemini-api/docs/imagen",
+      "models": [
+        {
+          "id": "imagen-4.0-generate-001",
+          "displayName": "Imagen 4",
+          "descriptions": [
+            {
+              "languageCode": "ko",
+              "value": "고품질 다용도 이미지 생성"
+            },
+            {
+              "languageCode": "en",
+              "value": "High-quality versatile image generation"
+            },
+            {
+              "languageCode": "ja",
+              "value": "高品質で多用途な画像生成"
+            },
+            {
+              "languageCode": "zh",
+              "value": "高质量的多用途图像生成"
+            }
+          ],
+          "infoUrl": "https://ai.google.dev/gemini-api/docs/imagen",
+          "options": [
+            {
+              "type": "ASPECT_RATIO",
+              "labels": [
+                {
+                  "languageCode": "ko",
+                  "value": "종횡비"
+                },
+                {
+                  "languageCode": "en",
+                  "value": "Aspect Ratio"
+                },
+                {
+                  "languageCode": "ja",
+                  "value": "アスペクト比"
+                },
+                {
+                  "languageCode": "zh",
+                  "value": "纵横比"
+                }
+              ],
+              "tooltips": [
+                {
+                  "languageCode": "ko",
+                  "value": "이미지의 가로세로 비율을 선택합니다"
+                },
+                {
+                  "languageCode": "en",
+                  "value": "Select the width to height ratio of the image"
+                },
+                {
+                  "languageCode": "ja",
+                  "value": "画像の縦横比を選択します"
+                },
+                {
+                  "languageCode": "zh",
+                  "value": "选择图像的宽高比"
+                }
+              ],
+              "apiParameterName": "aspectRatio",
+              "values": [
+                {
+                  "value": "1:1",
+                  "displayName": "1:1",
+                  "descriptions": [
+                    {
+                      "languageCode": "ko",
+                      "value": "정사각형"
+                    },
+                    {
+                      "languageCode": "en",
+                      "value": "Square"
+                    },
+                    {
+                      "languageCode": "ja",
+                      "value": "正方形"
+                    },
+                    {
+                      "languageCode": "zh",
+                      "value": "正方形"
+                    }
+                  ],
+                  "isDefault": true
+                },
+                {
+                  "value": "2:3",
+                  "displayName": "2:3",
+                  "descriptions": [
+                    {
+                      "languageCode": "ko",
+                      "value": "세로 사진"
+                    },
+                    {
+                      "languageCode": "en",
+                      "value": "Portrait photo"
+                    },
+                    {
+                      "languageCode": "ja",
+                      "value": "縦写真"
+                    },
+                    {
+                      "languageCode": "zh",
+                      "value": "纵向照片"
+                    }
+                  ]
+                },
+                {
+                  "value": "3:2",
+                  "displayName": "3:2",
+                  "descriptions": [
+                    {
+                      "languageCode": "ko",
+                      "value": "가로 사진"
+                    },
+                    {
+                      "languageCode": "en",
+                      "value": "Landscape photo"
+                    },
+                    {
+                      "languageCode": "ja",
+                      "value": "横写真"
+                    },
+                    {
+                      "languageCode": "zh",
+                      "value": "横向照片"
+                    }
+                  ]
+                },
+                {
+                  "value": "16:9",
+                  "displayName": "16:9",
+                  "descriptions": [
+                    {
+                      "languageCode": "ko",
+                      "value": "와이드스크린"
+                    },
+                    {
+                      "languageCode": "en",
+                      "value": "Widescreen"
+                    },
+                    {
+                      "languageCode": "ja",
+                      "value": "ワイドスクリーン"
+                    },
+                    {
+                      "languageCode": "zh",
+                      "value": "宽屏"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "pricePerImage": "$0.04/image"
+        }
+      ]
+    },
+    {
+      "provider": "CODEX_APP",
+      "modelsUrl": "https://developers.openai.com/codex/cli/reference#app-server",
+      "models": [
+        {
+          "id": "codex-app-image",
+          "displayName": "Codex App Image",
+          "descriptions": [
+            {
+              "languageCode": "ko",
+              "value": "Codex App 기반 이미지 생성"
+            },
+            {
+              "languageCode": "en",
+              "value": "Image generation via Codex App"
+            },
+            {
+              "languageCode": "ja",
+              "value": "Codex App経由の画像生成"
+            },
+            {
+              "languageCode": "zh",
+              "value": "通过Codex App生成图像"
+            }
+          ],
+          "infoUrl": "https://developers.openai.com/codex/cli/reference#app-server",
+          "pricePerImage": "-"
+        }
+      ]
+    },
+    {
+      "provider": "OPEN_ROUTER",
+      "modelsUrl": "https://openrouter.ai/collections/image-models",
+      "models": [
+        {
+          "id": "google/gemini-2.5-flash-image",
+          "displayName": "Gemini 2.5 Flash Image",
+          "descriptions": [
+            {
+              "languageCode": "ko",
+              "value": "빠르고 저렴한 최신 모델"
+            },
+            {
+              "languageCode": "en",
+              "value": "Fast and affordable latest model"
+            },
+            {
+              "languageCode": "ja",
+              "value": "高速で手頃な最新モデル"
+            },
+            {
+              "languageCode": "zh",
+              "value": "快速且经济的最新模型"
+            }
+          ],
+          "infoUrl": "https://openrouter.ai/models/google/gemini-2.5-flash-image",
+          "pricePerImage": "$0.001238/image"
+        }
+      ]
+    }
+  ]
+}

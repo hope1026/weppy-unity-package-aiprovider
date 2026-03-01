@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using UnityEngine;
 
-namespace Weppy.AIProvider.Chat
+namespace Weppy.AIProvider
 {
     internal static class CliPathUtility
     {

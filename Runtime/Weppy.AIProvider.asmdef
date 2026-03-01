@@ -1,0 +1,13 @@
+{
+    "name": "Weppy.AIProvider",
+    "rootNamespace": "Weppy.AIProvider",
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

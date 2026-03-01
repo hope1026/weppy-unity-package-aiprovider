@@ -299,7 +299,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6e010bacba6314b38ae89c0171c05acc, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Weppy.AIProvider.Chat.Chat.Samples.GeminiCliChatSampleIMGUI
+  m_EditorClassIdentifier: Assembly-CSharp::Weppy.AIProvider.Chat.Samples.GeminiCliChatSampleIMGUI
   _apiKey: 
   _useApiKey: 0
   _model: gemini-2.5-pro

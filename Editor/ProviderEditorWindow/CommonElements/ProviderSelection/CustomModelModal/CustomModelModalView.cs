@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Weppy.AIProvider.Chat.Editor
+namespace Weppy.AIProvider.Editor
 {
     public class CustomModelModalView<TProviderType, TModelInfo>
         where TProviderType : struct, Enum
@@ -11,7 +11,6 @@ namespace Weppy.AIProvider.Chat.Editor
     {
         private const string MODAL_UXML_PATH =
             EditorPaths.EDITOR_WINDOW_PATH + "CommonElements/ProviderSelection/CustomModelModal/CustomModelModal.uxml";
-
         private const string MODAL_USS_PATH =
             EditorPaths.EDITOR_WINDOW_PATH + "CommonElements/ProviderSelection/CustomModelModal/CustomModelModal.uss";
 
@@ -289,7 +288,45 @@ namespace Weppy.AIProvider.Chat.Editor
                     return;
                 }
 
-                if (newModel is ChatModelInfo chatModel)
+                if (newModel is ImageModelInfo imageModel)
+                {
+                    imageModel.Id = modelId;
+                    imageModel.DisplayName = modelName;
+                    imageModel.IsCustom = true;
+
+                    if (double.TryParse(pricing, out double priceValue))
+                    {
+                        imageModel.PricePerImage = priceValue;
+                    }
+                    else if (!string.IsNullOrEmpty(pricing))
+                    {
+                        imageModel.PricePerImageText = pricing;
+                        imageModel.NormalizePriceFromText();
+                    }
+
+                    if (!string.IsNullOrEmpty(description))
+                        imageModel.SetDescription(currentLanguageCode, description);
+                }
+                else if (newModel is BgRemovalModelInfo bgRemovalModel)
+                {
+                    bgRemovalModel.Id = modelId;
+                    bgRemovalModel.DisplayName = modelName;
+                    bgRemovalModel.IsCustom = true;
+
+                    if (double.TryParse(pricing, out double priceValue))
+                    {
+                        bgRemovalModel.PricePerImage = priceValue;
+                    }
+                    else if (!string.IsNullOrEmpty(pricing))
+                    {
+                        bgRemovalModel.PricePerImageText = pricing;
+                        bgRemovalModel.NormalizePriceFromText();
+                    }
+
+                    if (!string.IsNullOrEmpty(description))
+                        bgRemovalModel.SetDescription(currentLanguageCode, description);
+                }
+                else if (newModel is ChatModelInfo chatModel)
                 {
                     chatModel.Id = modelId;
                     chatModel.DisplayName = modelName;

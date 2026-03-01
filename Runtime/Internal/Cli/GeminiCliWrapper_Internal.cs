@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.IO;
 using UnityEngine;
 
-namespace Weppy.AIProvider.Chat
+namespace Weppy.AIProvider
 {
     public partial class GeminiCliWrapper : IDisposable
     {

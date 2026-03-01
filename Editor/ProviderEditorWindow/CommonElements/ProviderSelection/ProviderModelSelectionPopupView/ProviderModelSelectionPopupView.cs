@@ -6,7 +6,7 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Weppy.AIProvider.Chat.Editor
+namespace Weppy.AIProvider.Editor
 {
     public class ProviderModelSelectionPopupView<TProviderType, TModelInfo>
         where TProviderType : struct, Enum
@@ -16,7 +16,7 @@ namespace Weppy.AIProvider.Chat.Editor
         {
             NONE,
             API_KEY,
-            CLI_PATH
+            EXECUTABLE_PATH
         }
 
         private enum ModelSortOrder
@@ -140,6 +140,128 @@ namespace Weppy.AIProvider.Chat.Editor
             _owner = owner_ ?? throw new ArgumentNullException(nameof(owner_));
             _config = config_ ?? throw new ArgumentNullException(nameof(config_));
             _storage = storage_ ?? throw new ArgumentNullException(nameof(storage_));
+        }
+
+        private EditorProviderExecutionPathSupport<TProviderType> GetExecutionPathSupportManager()
+        {
+            return _owner?.Manager as EditorProviderExecutionPathSupport<TProviderType>;
+        }
+
+        private ProviderExecutionPathType GetExecutionPathType(TProviderType providerType_)
+        {
+            EditorProviderExecutionPathSupport<TProviderType> support = GetExecutionPathSupportManager();
+            if (support == null)
+                return ProviderExecutionPathType.NONE;
+
+            return support.GetExecutionPathType(providerType_);
+        }
+
+        private bool IsExecutablePathProviderType(TProviderType providerType_)
+        {
+            return GetExecutionPathType(providerType_) != ProviderExecutionPathType.NONE;
+        }
+
+        private bool IsCliExecutionPathProviderType(TProviderType providerType_)
+        {
+            return GetExecutionPathType(providerType_) == ProviderExecutionPathType.CLI;
+        }
+
+        private bool IsAppExecutionPathProviderType(TProviderType providerType_)
+        {
+            return GetExecutionPathType(providerType_) == ProviderExecutionPathType.APP;
+        }
+
+        private bool SupportsNodePath(TProviderType providerType_)
+        {
+            EditorProviderExecutionPathSupport<TProviderType> support = GetExecutionPathSupportManager();
+            if (support == null)
+                return false;
+
+            return support.SupportsNodeExecutablePath(providerType_);
+        }
+
+        private string GetExecutionPathSectionTitle()
+        {
+            return GetExecutionPathSectionTitle(_activeProviderType);
+        }
+
+        private string GetExecutionPathSectionTitle(TProviderType providerType_)
+        {
+            return IsAppExecutionPathProviderType(providerType_)
+                ? LocalizationManager.Get(LocalizationKeys.APP_PATH_SECTION_TITLE)
+                : LocalizationManager.Get(LocalizationKeys.CLI_PATH_SECTION_TITLE);
+        }
+
+        private string GetExecutionPathAutoDetectLabel()
+        {
+            return GetExecutionPathAutoDetectLabel(_activeProviderType);
+        }
+
+        private string GetExecutionPathAutoDetectLabel(TProviderType providerType_)
+        {
+            return IsAppExecutionPathProviderType(providerType_)
+                ? LocalizationManager.Get(LocalizationKeys.APP_PATH_AUTO_DETECT_BUTTON)
+                : LocalizationManager.Get(LocalizationKeys.CLI_PATH_AUTO_DETECT_BUTTON);
+        }
+
+        private string GetExecutionPathBrowseLabel()
+        {
+            return GetExecutionPathBrowseLabel(_activeProviderType);
+        }
+
+        private string GetExecutionPathBrowseLabel(TProviderType providerType_)
+        {
+            return IsAppExecutionPathProviderType(providerType_)
+                ? LocalizationManager.Get(LocalizationKeys.APP_PATH_BROWSE_BUTTON)
+                : LocalizationManager.Get(LocalizationKeys.CLI_PATH_BROWSE_BUTTON);
+        }
+
+        private string GetExecutionPathDialogTitle()
+        {
+            return GetExecutionPathDialogTitle(_activeProviderType);
+        }
+
+        private string GetExecutionPathDialogTitle(TProviderType providerType_)
+        {
+            return IsAppExecutionPathProviderType(providerType_)
+                ? LocalizationManager.Get(LocalizationKeys.APP_PATH_DIALOG_TITLE)
+                : LocalizationManager.Get(LocalizationKeys.CLI_PATH_DIALOG_TITLE);
+        }
+
+        private string GetExecutionPathGuideButtonLabel()
+        {
+            return GetExecutionPathGuideButtonLabel(_activeProviderType);
+        }
+
+        private string GetExecutionPathGuideButtonLabel(TProviderType providerType_)
+        {
+            return IsAppExecutionPathProviderType(providerType_)
+                ? LocalizationManager.Get(LocalizationKeys.APP_PATH_GUIDE_BUTTON)
+                : LocalizationManager.Get(LocalizationKeys.CLI_PATH_GUIDE_BUTTON);
+        }
+
+        private string GetExecutionPathInvalidWarningText()
+        {
+            return GetExecutionPathInvalidWarningText(_activeProviderType);
+        }
+
+        private string GetExecutionPathInvalidWarningText(TProviderType providerType_)
+        {
+            return IsAppExecutionPathProviderType(providerType_)
+                ? LocalizationManager.Get(LocalizationKeys.APP_PATH_INVALID_WARNING)
+                : LocalizationManager.Get(LocalizationKeys.CLI_PATH_INVALID_WARNING);
+        }
+
+        private string GetExecutionPathGoToSettingsText()
+        {
+            return GetExecutionPathGoToSettingsText(_activeProviderType);
+        }
+
+        private string GetExecutionPathGoToSettingsText(TProviderType providerType_)
+        {
+            return IsAppExecutionPathProviderType(providerType_)
+                ? LocalizationManager.Get(LocalizationKeys.APP_PATH_GO_TO_SETTINGS)
+                : LocalizationManager.Get(LocalizationKeys.CLI_PATH_GO_TO_SETTINGS);
         }
 
         public void Toggle()
@@ -309,10 +431,10 @@ namespace Weppy.AIProvider.Chat.Editor
             _hasActiveProvider = true;
             _isAllProvidersActive = false;
 
-            bool hasKey = HasApiKeyAvailable(providerType_);
+            bool hasProviderAuth = HasProviderAuthAvailable(providerType_);
 
             // Load and update API key section
-            UpdateApiKeySection(providerType_, hasKey);
+            UpdateApiKeySection(providerType_, hasProviderAuth);
             UpdateCliPathSection(providerType_);
             UpdateNodePathSection(providerType_);
 
@@ -625,11 +747,11 @@ namespace Weppy.AIProvider.Chat.Editor
             HideModelListWarning();
         }
 
-        private void ShowCliPathWarning()
+        private void ShowExecutablePathWarning(TProviderType providerType_)
         {
-            string message = LocalizationManager.Get(LocalizationKeys.CLI_PATH_INVALID_WARNING);
-            string actionText = LocalizationManager.Get(LocalizationKeys.CLI_PATH_GO_TO_SETTINGS);
-            ShowModelListWarning(ModelListWarningType.CLI_PATH, message, actionText);
+            string message = GetExecutionPathInvalidWarningText(providerType_);
+            string actionText = GetExecutionPathGoToSettingsText(providerType_);
+            ShowModelListWarning(ModelListWarningType.EXECUTABLE_PATH, message, actionText);
         }
 
         private void ShowModelListWarning(ModelListWarningType warningType_, string message_, string actionText_)
@@ -664,9 +786,9 @@ namespace Weppy.AIProvider.Chat.Editor
 
         private void HandleModelListWarningAction()
         {
-            if (_modelListWarningType == ModelListWarningType.CLI_PATH)
+            if (_modelListWarningType == ModelListWarningType.EXECUTABLE_PATH)
             {
-                HandleGoToCliPathSetting();
+                HandleGoToExecutionPathSetting();
             }
             else if (_modelListWarningType == ModelListWarningType.API_KEY)
             {
@@ -760,7 +882,7 @@ namespace Weppy.AIProvider.Chat.Editor
 
             if (_cliPathTitle != null)
             {
-                _cliPathTitle.text = LocalizationManager.Get(LocalizationKeys.CLI_PATH_SECTION_TITLE);
+                _cliPathTitle.text = GetExecutionPathSectionTitle();
             }
 
             if (_cliPathField != null)
@@ -770,39 +892,39 @@ namespace Weppy.AIProvider.Chat.Editor
                 _cliPathField.RegisterValueChangedCallback(evt_ =>
                 {
                     string newValue = evt_.newValue ?? string.Empty;
-                    SetCliExecutablePath(newValue);
-                    UpdateCliPathWarning(newValue);
+                    SetExecutablePath(newValue);
+                    UpdateExecutablePathWarning(GetExecutablePath());
                 });
             }
 
             if (_cliPathAutoDetectButton != null)
             {
-                _cliPathAutoDetectButton.text = LocalizationManager.Get(LocalizationKeys.CLI_PATH_AUTO_DETECT_BUTTON);
+                _cliPathAutoDetectButton.text = GetExecutionPathAutoDetectLabel();
                 _cliPathAutoDetectButton.clicked += () =>
                 {
-                    string detectedPath = FindCliExecutablePath(_activeProviderType);
+                    string detectedPath = FindExecutablePath(_activeProviderType);
                     if (!string.IsNullOrEmpty(detectedPath))
                     {
                         if (_cliPathField != null)
                             _cliPathField.SetValueWithoutNotify(detectedPath);
 
-                        SetCliExecutablePath(detectedPath);
-                        UpdateCliPathWarning(detectedPath);
+                        SetExecutablePath(detectedPath);
+                        UpdateExecutablePathWarning(GetExecutablePath());
                     }
                     else
                     {
-                        UpdateCliPathWarning(_cliPathField != null ? _cliPathField.value : string.Empty);
+                        UpdateExecutablePathWarning(GetExecutablePath());
                     }
                 };
             }
 
             if (_cliPathBrowseButton != null)
             {
-                _cliPathBrowseButton.text = LocalizationManager.Get(LocalizationKeys.CLI_PATH_BROWSE_BUTTON);
+                _cliPathBrowseButton.text = GetExecutionPathBrowseLabel();
                 _cliPathBrowseButton.clicked += () =>
                 {
                     string path = EditorUtility.OpenFilePanel(
-                        LocalizationManager.Get(LocalizationKeys.CLI_PATH_DIALOG_TITLE),
+                        GetExecutionPathDialogTitle(),
                         string.Empty,
                         string.Empty);
 
@@ -811,18 +933,18 @@ namespace Weppy.AIProvider.Chat.Editor
                         if (_cliPathField != null)
                             _cliPathField.SetValueWithoutNotify(path);
 
-                        SetCliExecutablePath(path);
-                        UpdateCliPathWarning(path);
+                        SetExecutablePath(path);
+                        UpdateExecutablePathWarning(GetExecutablePath());
                     }
                 };
             }
 
             if (_cliPathGuideButton != null)
             {
-                _cliPathGuideButton.text = LocalizationManager.Get(LocalizationKeys.CLI_PATH_GUIDE_BUTTON);
+                _cliPathGuideButton.text = GetExecutionPathGuideButtonLabel();
                 _cliPathGuideButton.clicked += () =>
                 {
-                    string url = GetCliInstallGuideUrl(_activeProviderType);
+                    string url = GetExecutableInstallGuideUrl(_activeProviderType);
                     if (!string.IsNullOrEmpty(url))
                     {
                         Application.OpenURL(url);
@@ -837,15 +959,15 @@ namespace Weppy.AIProvider.Chat.Editor
 
             if (_noCliPathText != null)
             {
-                _noCliPathText.text = LocalizationManager.Get(LocalizationKeys.CLI_PATH_INVALID_WARNING);
+                _noCliPathText.text = GetExecutionPathInvalidWarningText();
             }
 
             if (_goToCliPathButton != null)
             {
-                _goToCliPathButton.text = LocalizationManager.Get(LocalizationKeys.CLI_PATH_GO_TO_SETTINGS);
+                _goToCliPathButton.text = GetExecutionPathGoToSettingsText();
                 _goToCliPathButton.clicked += () =>
                 {
-                    HandleGoToCliPathSetting();
+                    HandleGoToExecutionPathSetting();
                 };
             }
         }
@@ -878,28 +1000,7 @@ namespace Weppy.AIProvider.Chat.Editor
                 _nodePathAutoDetectButton.text = "Auto Detect";
                 _nodePathAutoDetectButton.clicked += () =>
                 {
-                    string detectedPath = string.Empty;
-                    if (_activeProviderType is ChatEditorProviderType chatProviderType)
-                    {
-                        switch (chatProviderType)
-                        {
-                            case ChatEditorProviderType.CLAUDE_CODE_CLI:
-                            {
-                                detectedPath = ClaudeCodeCliWrapper.FindNodeExecutablePath();
-                                break;
-                            }
-                            case ChatEditorProviderType.CODEX_CLI:
-                            {
-                                detectedPath = CodexCliWrapper.FindNodeExecutablePath();
-                                break;
-                            }
-                            case ChatEditorProviderType.GEMINI_CLI:
-                            {
-                                detectedPath = GeminiCliWrapper.FindNodeExecutablePath();
-                                break;
-                            }
-                        }
-                    }
+                    string detectedPath = AutoDetectNodeExecutablePath(_activeProviderType);
 
                     if (!string.IsNullOrEmpty(detectedPath))
                     {
@@ -937,7 +1038,7 @@ namespace Weppy.AIProvider.Chat.Editor
             if (_nodePathSection == null)
                 return;
 
-            if (_isAllProvidersActive || !IsCliProviderType(providerType_))
+            if (_isAllProvidersActive || !SupportsNodePath(providerType_))
             {
                 _nodePathSection.style.display = DisplayStyle.None;
                 return;
@@ -955,7 +1056,7 @@ namespace Weppy.AIProvider.Chat.Editor
             if (_cliPathSection == null)
                 return;
 
-            if (_isAllProvidersActive || !IsCliProviderType(providerType_))
+            if (_isAllProvidersActive || !IsExecutablePathProviderType(providerType_))
             {
                 _cliPathSection.style.display = DisplayStyle.None;
                 return;
@@ -963,11 +1064,24 @@ namespace Weppy.AIProvider.Chat.Editor
 
             _cliPathSection.style.display = DisplayStyle.Flex;
 
-            string currentPath = GetCliExecutablePath();
+            if (_cliPathTitle != null)
+                _cliPathTitle.text = GetExecutionPathSectionTitle();
+            if (_cliPathAutoDetectButton != null)
+                _cliPathAutoDetectButton.text = GetExecutionPathAutoDetectLabel();
+            if (_cliPathBrowseButton != null)
+                _cliPathBrowseButton.text = GetExecutionPathBrowseLabel();
+            if (_cliPathGuideButton != null)
+                _cliPathGuideButton.text = GetExecutionPathGuideButtonLabel();
+            if (_noCliPathText != null)
+                _noCliPathText.text = GetExecutionPathInvalidWarningText();
+            if (_goToCliPathButton != null)
+                _goToCliPathButton.text = GetExecutionPathGoToSettingsText();
+
+            string currentPath = GetExecutablePath();
             if (_cliPathField != null)
                 _cliPathField.SetValueWithoutNotify(currentPath);
 
-            UpdateCliPathWarning(currentPath);
+            UpdateExecutablePathWarning(currentPath);
         }
 
         private void UpdateModelListWarning(TProviderType providerType_)
@@ -978,15 +1092,15 @@ namespace Weppy.AIProvider.Chat.Editor
                 return;
             }
 
-            bool isCliProvider = IsCliProviderType(providerType_);
-            if (isCliProvider)
+            bool requiresExecutionPath = IsExecutablePathProviderType(providerType_);
+            if (requiresExecutionPath)
             {
-                string cliPath = GetCliExecutablePath();
-                bool hasCliPath = !string.IsNullOrWhiteSpace(cliPath);
-                bool cliPathValid = hasCliPath && IsCliPathValid(cliPath);
-                if (!cliPathValid)
+                string executablePath = GetExecutablePath();
+                bool hasExecutablePath = !string.IsNullOrWhiteSpace(executablePath);
+                bool executablePathValid = hasExecutablePath && IsCliPathValid(executablePath);
+                if (!executablePathValid)
                 {
-                    ShowCliPathWarning();
+                    ShowExecutablePathWarning(providerType_);
                     return;
                 }
 
@@ -1011,7 +1125,7 @@ namespace Weppy.AIProvider.Chat.Editor
             HideModelListWarning();
         }
 
-        private void UpdateCliPathWarning(string path_)
+        private void UpdateExecutablePathWarning(string path_)
         {
             if (_noCliPathWarning == null)
                 return;
@@ -1025,18 +1139,7 @@ namespace Weppy.AIProvider.Chat.Editor
             }
         }
 
-        private bool IsCliProviderType(TProviderType providerType_)
-        {
-            object providerTypeObj = providerType_;
-            if (providerTypeObj is ChatEditorProviderType chatEditorProviderType)
-            {
-                return ChatEditorProviderTypeUtility.IsCliProvider(chatEditorProviderType);
-            }
-
-            return false;
-        }
-
-        private void HandleGoToCliPathSetting()
+        private void HandleGoToExecutionPathSetting()
         {
             if (_apiKeySection == null)
                 return;
@@ -1053,80 +1156,99 @@ namespace Weppy.AIProvider.Chat.Editor
             }
         }
 
-        private string GetCliInstallGuideUrl(TProviderType providerType_)
+        private string GetExecutableInstallGuideUrl(TProviderType providerType_)
         {
-            object providerTypeObj = providerType_;
-
-            if (providerTypeObj is ChatEditorProviderType chatEditorProviderType)
-            {
-                return chatEditorProviderType switch
-                {
-                    ChatEditorProviderType.CODEX_CLI => "https://developers.openai.com/codex/cli/",
-                    ChatEditorProviderType.CLAUDE_CODE_CLI => "https://code.claude.com/docs",
-                    ChatEditorProviderType.GEMINI_CLI => "https://geminicli.com/docs/get-started/installation/",
-                    _ => string.Empty
-                };
-            }
-
-            return string.Empty;
-        }
-
-        private string GetCliExecutablePath()
-        {
-            if (_storage == null || !_hasActiveProvider)
+            EditorProviderExecutionPathSupport<TProviderType> support = GetExecutionPathSupportManager();
+            if (support == null)
                 return string.Empty;
 
-            if (_activeProviderType is ChatEditorProviderType chatProviderType)
-                return EditorDataStorageKeys.GetCliExecutablePath(_storage, chatProviderType);
-
-            return string.Empty;
+            return support.GetExecutableInstallGuideUrl(providerType_);
         }
 
-        private void SetCliExecutablePath(string path_)
+        private string GetExecutablePath()
         {
-            if (_storage == null || !_hasActiveProvider)
+            if (!_hasActiveProvider)
+                return string.Empty;
+
+            EditorProviderExecutionPathSupport<TProviderType> support = GetExecutionPathSupportManager();
+            if (support == null)
+                return string.Empty;
+
+            return support.GetExecutablePath(_activeProviderType);
+        }
+
+        private void SetExecutablePath(string path_)
+        {
+            if (!_hasActiveProvider)
                 return;
 
-            if (_activeProviderType is ChatEditorProviderType chatProviderType)
+            bool hadAuth = HasProviderAuthAvailable(_activeProviderType);
+
+            EditorProviderExecutionPathSupport<TProviderType> support = GetExecutionPathSupportManager();
+            if (support == null)
+                return;
+
+            support.SetExecutablePath(_activeProviderType, path_);
+
+            bool autoSwitchedToPathAuth = false;
+            if (IsAppExecutionPathProviderType(_activeProviderType) &&
+                IsApiKeyOptionalProvider(_activeProviderType) &&
+                IsApiKeyEnabledProvider(_activeProviderType) &&
+                !HasStoredApiKey(_activeProviderType) &&
+                _config.SetApiKeyEnabled != null)
             {
-                EditorDataStorageKeys.SetCliExecutablePath(_storage, chatProviderType, path_);
-
-                // Update UI state
-                bool hasAuth = HasApiKeyAvailable(_activeProviderType);
-                UpdateProviderStatusAfterApiKeyChange(_activeProviderType, hasAuth);
-                UpdateModelListWarning(_activeProviderType);
-
-                _owner?.NotifyAuthChanged();
+                string normalizedPath = GetExecutablePath();
+                if (IsCliPathValid(normalizedPath))
+                {
+                    _config.SetApiKeyEnabled(_activeProviderType, false);
+                    autoSwitchedToPathAuth = true;
+                }
             }
+
+            bool hasAuth = HasProviderAuthAvailable(_activeProviderType);
+            if (autoSwitchedToPathAuth)
+            {
+                UpdateApiKeySection(_activeProviderType, hasAuth);
+            }
+
+            UpdateProviderStatusAfterApiKeyChange(_activeProviderType, hasAuth);
+            UpdateModelListWarning(_activeProviderType);
+            _owner?.NotifyAuthChanged();
+            NotifyProviderEnabledStateChanged(_activeProviderType, !hadAuth && hasAuth);
+            RefreshChipsAfterAuthStateChanged(hadAuth, hasAuth);
         }
 
         private string GetNodeExecutablePath()
         {
-            if (_storage == null || !_hasActiveProvider)
+            if (!_hasActiveProvider)
                 return string.Empty;
 
-            if (_activeProviderType is ChatEditorProviderType chatProviderType)
-                return EditorDataStorageKeys.GetNodeExecutablePath(_storage, chatProviderType);
+            EditorProviderExecutionPathSupport<TProviderType> support = GetExecutionPathSupportManager();
+            if (support == null || !support.SupportsNodeExecutablePath(_activeProviderType))
+                return string.Empty;
 
-            return string.Empty;
+            return support.GetNodeExecutablePath(_activeProviderType);
         }
 
         private void SetNodeExecutablePath(string path_)
         {
-            if (_storage == null || !_hasActiveProvider)
+            if (!_hasActiveProvider)
                 return;
 
-            if (_activeProviderType is ChatEditorProviderType chatProviderType)
-            {
-                EditorDataStorageKeys.SetNodeExecutablePath(_storage, chatProviderType, path_);
+            bool hadAuth = HasProviderAuthAvailable(_activeProviderType);
 
-                // Update UI state
-                bool hasAuth = HasApiKeyAvailable(_activeProviderType);
-                UpdateProviderStatusAfterApiKeyChange(_activeProviderType, hasAuth);
-                UpdateModelListWarning(_activeProviderType);
+            EditorProviderExecutionPathSupport<TProviderType> support = GetExecutionPathSupportManager();
+            if (support == null || !support.SupportsNodeExecutablePath(_activeProviderType))
+                return;
 
-                _owner?.NotifyAuthChanged();
-            }
+            support.SetNodeExecutablePath(_activeProviderType, path_);
+
+            bool hasAuth = HasProviderAuthAvailable(_activeProviderType);
+            UpdateProviderStatusAfterApiKeyChange(_activeProviderType, hasAuth);
+            UpdateModelListWarning(_activeProviderType);
+            _owner?.NotifyAuthChanged();
+            NotifyProviderEnabledStateChanged(_activeProviderType, !hadAuth && hasAuth);
+            RefreshChipsAfterAuthStateChanged(hadAuth, hasAuth);
         }
 
         private bool IsCliPathValid(string path_)
@@ -1141,18 +1263,22 @@ namespace Weppy.AIProvider.Chat.Editor
             return false;
         }
 
-        private string FindCliExecutablePath(TProviderType providerType_)
+        private string FindExecutablePath(TProviderType providerType_)
         {
-            if (providerType_ is ChatEditorProviderType chatProviderType)
-            {
-                switch (chatProviderType)
-                {
-                    case ChatEditorProviderType.CODEX_CLI:       return CodexCliWrapper.FindCodexExecutablePath();
-                    case ChatEditorProviderType.CLAUDE_CODE_CLI: return ClaudeCodeCliWrapper.FindClaudeCodeExecutablePath();
-                    case ChatEditorProviderType.GEMINI_CLI:      return GeminiCliWrapper.FindGeminiExecutablePath();
-                }
-            }
-            return string.Empty;
+            EditorProviderExecutionPathSupport<TProviderType> support = GetExecutionPathSupportManager();
+            if (support == null)
+                return string.Empty;
+
+            return support.AutoDetectExecutablePath(providerType_);
+        }
+
+        private string AutoDetectNodeExecutablePath(TProviderType providerType_)
+        {
+            EditorProviderExecutionPathSupport<TProviderType> support = GetExecutionPathSupportManager();
+            if (support == null || !support.SupportsNodeExecutablePath(providerType_))
+                return string.Empty;
+
+            return support.AutoDetectNodeExecutablePath(providerType_);
         }
 
         private bool IsApiKeyOptionalProvider(TProviderType providerType_)
@@ -1173,9 +1299,11 @@ namespace Weppy.AIProvider.Chat.Editor
             if (_config.SetApiKeyEnabled == null || !_hasActiveProvider)
                 return;
 
+            bool hadAuth = HasProviderAuthAvailable(_activeProviderType);
             _config.SetApiKeyEnabled(_activeProviderType, enabled_);
-            UpdateApiKeySection(_activeProviderType, HasApiKeyAvailable(_activeProviderType));
-            UpdateProviderStatusAfterApiKeyChange(_activeProviderType, HasApiKeyAvailable(_activeProviderType));
+            bool hasAuth = HasProviderAuthAvailable(_activeProviderType);
+            UpdateApiKeySection(_activeProviderType, hasAuth);
+            UpdateProviderStatusAfterApiKeyChange(_activeProviderType, hasAuth);
 
             if (enabled_ && !HasStoredApiKey(_activeProviderType))
             {
@@ -1188,17 +1316,55 @@ namespace Weppy.AIProvider.Chat.Editor
 
             // Notify auth changed
             _owner?.NotifyAuthChanged();
-
-            if (_config.NotifyProviderEnabledChanged != null)
-            {
-                bool hasKey = HasApiKeyAvailable(_activeProviderType);
-                _config.NotifyProviderEnabledChanged(_activeProviderType, hasKey);
-            }
+            NotifyProviderEnabledStateChanged(_activeProviderType, !hadAuth && hasAuth);
+            RefreshChipsAfterAuthStateChanged(hadAuth, hasAuth);
         }
 
-        private bool HasApiKeyAvailable(TProviderType providerType_)
+        private bool HasProviderAuthAvailable(TProviderType providerType_)
         {
-            return _config.HasApiKey != null && _config.HasApiKey(providerType_);
+            return _config.HasProviderAuth != null && _config.HasProviderAuth(providerType_);
+        }
+
+        private bool IsProviderEnabled(TProviderType providerType_)
+        {
+            if (_config.IsProviderEnabled == null)
+                return true;
+
+            return _config.IsProviderEnabled(providerType_);
+        }
+
+        private void NotifyProviderEnabledStateChanged(TProviderType providerType_, bool forceEnable_)
+        {
+            if (_config.NotifyProviderEnabledChanged == null)
+                return;
+
+            bool hasProviderAuth = HasProviderAuthAvailable(providerType_);
+            bool isProviderEnabled = IsProviderEnabled(providerType_);
+            bool shouldEnable = hasProviderAuth && (isProviderEnabled || forceEnable_);
+            _config.NotifyProviderEnabledChanged(providerType_, shouldEnable);
+        }
+
+        private void NotifyProviderEnabledStateChanged(TProviderType providerType_)
+        {
+            NotifyProviderEnabledStateChanged(providerType_, false);
+        }
+
+        private void RefreshChipsAfterAuthStateChanged(bool hadAuth_, bool hasAuth_)
+        {
+            if (hadAuth_ == hasAuth_)
+                return;
+
+            if (_isAllProvidersActive)
+            {
+                BuildSelectedModelTabsForAll();
+            }
+            else if (_hasActiveProvider)
+            {
+                BuildSelectedModelTabs(_activeProviderType);
+            }
+
+            BuildHeaderSelectedChips();
+            UpdateProviderSelectedCounts();
         }
 
         private bool HasStoredApiKey(TProviderType providerType_)
@@ -1361,6 +1527,18 @@ namespace Weppy.AIProvider.Chat.Editor
             {
                 return EditorDataStorageKeys.GetApiKey(_storage, chatEditorProviderType);
             }
+            else if (providerTypeObj is ImageEditorProviderType imageEditorProviderType)
+            {
+                return EditorDataStorageKeys.GetApiKey(_storage, imageEditorProviderType);
+            }
+            else if (providerTypeObj is ImageProviderType imageProviderType)
+            {
+                return EditorDataStorageKeys.GetApiKey(_storage, imageProviderType);
+            }
+            else if (providerTypeObj is BgRemovalProviderType bgRemovalProviderType)
+            {
+                return EditorDataStorageKeys.GetApiKey(_storage, bgRemovalProviderType);
+            }
 
             return string.Empty;
         }
@@ -1391,6 +1569,39 @@ namespace Weppy.AIProvider.Chat.Editor
                     ChatEditorProviderType.HUGGING_FACE => EditorDataStorageKeys.KEY_HUGGINGFACE,
                     ChatEditorProviderType.OPEN_ROUTER => EditorDataStorageKeys.KEY_OPENROUTER,
                     ChatEditorProviderType.CODEX_CLI => EditorDataStorageKeys.KEY_CODEX,
+                    ChatEditorProviderType.CLAUDE_CODE_CLI => EditorDataStorageKeys.KEY_CLAUDE_CODE,
+                    ChatEditorProviderType.GEMINI_CLI => EditorDataStorageKeys.KEY_GEMINI_CLI,
+                    _ => string.Empty
+                };
+            }
+            else if (providerTypeObj is ImageEditorProviderType imageEditorProviderType)
+            {
+                return imageEditorProviderType switch
+                {
+                    ImageEditorProviderType.OPEN_AI => EditorDataStorageKeys.KEY_OPENAI,
+                    ImageEditorProviderType.CODEX_APP => EditorDataStorageKeys.KEY_CODEX,
+                    ImageEditorProviderType.GOOGLE_GEMINI => EditorDataStorageKeys.KEY_GOOGLE,
+                    ImageEditorProviderType.GOOGLE_IMAGEN => EditorDataStorageKeys.KEY_GOOGLE,
+                    ImageEditorProviderType.OPEN_ROUTER => EditorDataStorageKeys.KEY_OPENROUTER,
+                    _ => string.Empty
+                };
+            }
+            else if (providerTypeObj is ImageProviderType imageProviderType)
+            {
+                return imageProviderType switch
+                {
+                    ImageProviderType.OPEN_AI => EditorDataStorageKeys.KEY_OPENAI,
+                    ImageProviderType.GOOGLE_GEMINI => EditorDataStorageKeys.KEY_GOOGLE,
+                    ImageProviderType.GOOGLE_IMAGEN => EditorDataStorageKeys.KEY_GOOGLE,
+                    ImageProviderType.OPEN_ROUTER => EditorDataStorageKeys.KEY_OPENROUTER,
+                    _ => string.Empty
+                };
+            }
+            else if (providerTypeObj is BgRemovalProviderType bgRemovalProviderType)
+            {
+                return bgRemovalProviderType switch
+                {
+                    BgRemovalProviderType.REMOVE_BG => EditorDataStorageKeys.KEY_REMOVEBG,
                     _ => string.Empty
                 };
             }
@@ -1426,6 +1637,37 @@ namespace Weppy.AIProvider.Chat.Editor
                     ChatEditorProviderType.CODEX_CLI => "https://platform.openai.com/api-keys",
                     ChatEditorProviderType.CLAUDE_CODE_CLI => "https://console.anthropic.com/settings/keys",
                     ChatEditorProviderType.GEMINI_CLI => "https://aistudio.google.com/app/apikey",
+                    _ => string.Empty
+                };
+            }
+            else if (providerTypeObj is ImageEditorProviderType imageEditorProviderType)
+            {
+                return imageEditorProviderType switch
+                {
+                    ImageEditorProviderType.OPEN_AI => "https://platform.openai.com/api-keys",
+                    ImageEditorProviderType.CODEX_APP => "https://platform.openai.com/api-keys",
+                    ImageEditorProviderType.GOOGLE_GEMINI => "https://aistudio.google.com/app/apikey",
+                    ImageEditorProviderType.GOOGLE_IMAGEN => "https://aistudio.google.com/app/apikey",
+                    ImageEditorProviderType.OPEN_ROUTER => "https://openrouter.ai/settings/keys",
+                    _ => string.Empty
+                };
+            }
+            else if (providerTypeObj is ImageProviderType imageProviderType)
+            {
+                return imageProviderType switch
+                {
+                    ImageProviderType.OPEN_AI => "https://platform.openai.com/api-keys",
+                    ImageProviderType.GOOGLE_GEMINI => "https://aistudio.google.com/app/apikey",
+                    ImageProviderType.GOOGLE_IMAGEN => "https://aistudio.google.com/app/apikey",
+                    ImageProviderType.OPEN_ROUTER => "https://openrouter.ai/settings/keys",
+                    _ => string.Empty
+                };
+            }
+            else if (providerTypeObj is BgRemovalProviderType bgRemovalProviderType)
+            {
+                return bgRemovalProviderType switch
+                {
+                    BgRemovalProviderType.REMOVE_BG => "https://www.remove.bg/users/sign_up",
                     _ => string.Empty
                 };
             }
@@ -1567,6 +1809,7 @@ namespace Weppy.AIProvider.Chat.Editor
             if (_apiKeyFieldEditable == null || _storage == null)
                 return;
 
+            bool hadAuth = HasProviderAuthAvailable(_activeProviderType);
             string newApiKey = _apiKeyFieldEditable.value ?? string.Empty;
 
             // Validate non-empty
@@ -1599,10 +1842,13 @@ namespace Weppy.AIProvider.Chat.Editor
             UpdateModelListWarning(_activeProviderType);
 
             // Update provider list status labels
-            UpdateProviderStatusAfterApiKeyChange(_activeProviderType, true);
+            bool hasAuth = HasProviderAuthAvailable(_activeProviderType);
+            UpdateProviderStatusAfterApiKeyChange(_activeProviderType, hasAuth);
 
             // Notify auth changed
             _owner?.NotifyAuthChanged();
+            NotifyProviderEnabledStateChanged(_activeProviderType, !hadAuth && hasAuth);
+            RefreshChipsAfterAuthStateChanged(hadAuth, hasAuth);
         }
 
         private void OnDeleteApiKeyClicked()
@@ -1610,6 +1856,7 @@ namespace Weppy.AIProvider.Chat.Editor
             if (_storage == null)
                 return;
 
+            bool hadAuth = HasProviderAuthAvailable(_activeProviderType);
             string providerName = _activeProviderType.ToString();
 
             // Confirmation dialog
@@ -1644,10 +1891,13 @@ namespace Weppy.AIProvider.Chat.Editor
             UpdateModelListWarning(_activeProviderType);
 
             // Update provider list status labels
-            UpdateProviderStatusAfterApiKeyChange(_activeProviderType, false);
+            bool hasAuth = HasProviderAuthAvailable(_activeProviderType);
+            UpdateProviderStatusAfterApiKeyChange(_activeProviderType, hasAuth);
 
             // Notify auth changed
             _owner?.NotifyAuthChanged();
+            NotifyProviderEnabledStateChanged(_activeProviderType, !hadAuth && hasAuth);
+            RefreshChipsAfterAuthStateChanged(hadAuth, hasAuth);
         }
 
         private void OnGetApiKeyClicked()
@@ -1906,9 +2156,9 @@ namespace Weppy.AIProvider.Chat.Editor
             VisualElement row = new VisualElement();
             row.AddToClassList("pms-provider-row");
 
-            bool hasKey = _config.HasApiKey != null && _config.HasApiKey(providerType_);
+            bool hasProviderAuth = HasProviderAuthAvailable(providerType_);
 
-            if (!hasKey)
+            if (!hasProviderAuth)
             {
                 row.AddToClassList("pms-provider-row--disabled");
             }
@@ -1936,7 +2186,8 @@ namespace Weppy.AIProvider.Chat.Editor
 
             row.RegisterCallback<ClickEvent>(evt_ =>
             {
-                if (!hasKey)
+                bool hasProviderAuthNow = HasProviderAuthAvailable(providerType_);
+                if (!hasProviderAuthNow)
                 {
                     UpdateModelListWarning(providerType_);
                     SetActiveProvider(providerType_, true);
@@ -2070,10 +2321,10 @@ namespace Weppy.AIProvider.Chat.Editor
 
             _modelListContainer.Clear();
 
-            bool hasKey = _config.HasApiKey != null && _config.HasApiKey(providerType_);
-            bool providerEnabled = hasKey;
+            bool hasProviderAuth = HasProviderAuthAvailable(providerType_);
+            bool providerEnabled = hasProviderAuth && IsProviderEnabled(providerType_);
 
-            UpdateUIElementsEnabledState(hasKey);
+            UpdateUIElementsEnabledState(providerEnabled);
 
             List<TModelInfo> modelInfos = _config.GetAllModelInfos != null
                 ? _config.GetAllModelInfos(providerType_)
@@ -2126,8 +2377,10 @@ namespace Weppy.AIProvider.Chat.Editor
                 if (_config.IsNoneProvider != null && _config.IsNoneProvider(providerType))
                     continue;
 
-                bool hasKey = _config.HasApiKey != null && _config.HasApiKey(providerType);
-                bool providerEnabled = hasKey;
+                bool hasProviderAuth = HasProviderAuthAvailable(providerType);
+                bool providerEnabled = hasProviderAuth && IsProviderEnabled(providerType);
+                if (!providerEnabled)
+                    continue;
 
                 List<TModelInfo> modelInfos = _config.GetAllModelInfos != null
                     ? _config.GetAllModelInfos(providerType)
@@ -2372,6 +2625,12 @@ namespace Weppy.AIProvider.Chat.Editor
 
             if (modelInfo_ is ChatModelInfo chatModel)
                 return chatModel.IsCustom;
+
+            if (modelInfo_ is ImageModelInfo imageModel)
+                return imageModel.IsCustom;
+
+            if (modelInfo_ is BgRemovalModelInfo bgRemovalModel)
+                return bgRemovalModel.IsCustom;
 
             return false;
         }
@@ -2789,6 +3048,12 @@ namespace Weppy.AIProvider.Chat.Editor
             foreach (TProviderType providerType in providerOrder)
             {
                 if (_config.IsNoneProvider != null && _config.IsNoneProvider(providerType))
+                    continue;
+
+                if (!HasProviderAuthAvailable(providerType))
+                    continue;
+
+                if (!IsProviderEnabled(providerType))
                     continue;
 
                 List<string> modelIds = _owner.GetSelectedModelIdsInternal(providerType);

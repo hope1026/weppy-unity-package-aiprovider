@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Weppy.AIProvider.Chat.Editor
+namespace Weppy.AIProvider.Editor
 {
-    public class EditorProviderManagerChat : EditorProviderManagerInterface<ChatEditorProviderType, ChatModelInfo>
+    public class EditorProviderManagerChat :
+        EditorProviderManagerInterface<ChatEditorProviderType, ChatModelInfo>,
+        EditorProviderExecutionPathSupport<ChatEditorProviderType>
     {
         public event Action<ChatEditorProviderType> OnSelectedModelChanged;
 
@@ -188,6 +190,71 @@ namespace Weppy.AIProvider.Chat.Editor
         public string GetModelsUrl(ChatEditorProviderType providerType_)
         {
             return _chatModelPresets.GetModelsUrl(providerType_);
+        }
+
+        public ProviderExecutionPathType GetExecutionPathType(ChatEditorProviderType providerType_)
+        {
+            return ChatEditorProviderTypeUtility.IsCliProvider(providerType_)
+                ? ProviderExecutionPathType.CLI
+                : ProviderExecutionPathType.NONE;
+        }
+
+        public string GetExecutablePath(ChatEditorProviderType providerType_)
+        {
+            return EditorDataStorageKeys.GetCliExecutablePath(_storage, providerType_);
+        }
+
+        public void SetExecutablePath(ChatEditorProviderType providerType_, string path_)
+        {
+            EditorDataStorageKeys.SetCliExecutablePath(_storage, providerType_, path_);
+        }
+
+        public string AutoDetectExecutablePath(ChatEditorProviderType providerType_)
+        {
+            return providerType_ switch
+            {
+                ChatEditorProviderType.CODEX_CLI => CodexCliWrapper.FindCodexExecutablePath(),
+                ChatEditorProviderType.CLAUDE_CODE_CLI => ClaudeCodeCliWrapper.FindClaudeCodeExecutablePath(),
+                ChatEditorProviderType.GEMINI_CLI => GeminiCliWrapper.FindGeminiExecutablePath(),
+                _ => string.Empty
+            };
+        }
+
+        public string GetExecutableInstallGuideUrl(ChatEditorProviderType providerType_)
+        {
+            return providerType_ switch
+            {
+                ChatEditorProviderType.CODEX_CLI => "https://developers.openai.com/codex/cli/",
+                ChatEditorProviderType.CLAUDE_CODE_CLI => "https://code.claude.com/docs",
+                ChatEditorProviderType.GEMINI_CLI => "https://geminicli.com/docs/get-started/installation/",
+                _ => string.Empty
+            };
+        }
+
+        public bool SupportsNodeExecutablePath(ChatEditorProviderType providerType_)
+        {
+            return ChatEditorProviderTypeUtility.IsCliProvider(providerType_);
+        }
+
+        public string GetNodeExecutablePath(ChatEditorProviderType providerType_)
+        {
+            return EditorDataStorageKeys.GetNodeExecutablePath(_storage, providerType_);
+        }
+
+        public void SetNodeExecutablePath(ChatEditorProviderType providerType_, string path_)
+        {
+            EditorDataStorageKeys.SetNodeExecutablePath(_storage, providerType_, path_);
+        }
+
+        public string AutoDetectNodeExecutablePath(ChatEditorProviderType providerType_)
+        {
+            return providerType_ switch
+            {
+                ChatEditorProviderType.CODEX_CLI => CodexCliWrapper.FindNodeExecutablePath(),
+                ChatEditorProviderType.CLAUDE_CODE_CLI => ClaudeCodeCliWrapper.FindNodeExecutablePath(),
+                ChatEditorProviderType.GEMINI_CLI => GeminiCliWrapper.FindNodeExecutablePath(),
+                _ => string.Empty
+            };
         }
 
         private List<string> GetStoredSelectedModelIds(ChatEditorProviderType providerType_)

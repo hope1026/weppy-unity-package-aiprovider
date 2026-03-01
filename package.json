@@ -1,19 +1,19 @@
 {
-  "name": "com.weppy.aiprovider.chat",
+  "name": "com.weppy.aiprovider",
   "version": "1.0.0",
-  "displayName": "Weppy AI Provider Chat",
-  "description": "A Unity package for multi-provider AI chat (API and CLI) with streaming and editor tooling.",
+  "displayName": "Weppy AI Provider",
+  "description": "A friendly, plug-and-play package for unified AI chat, image generation (OpenAI, Gemini/Imagen, OpenRouter), and background removal.",
   "unity": "2021.3",
   "keywords": [
     "ai",
     "chat",
-    "llm",
-    "openai",
+    "image",
+    "gpt",
     "gemini",
     "claude",
-    "huggingface",
-    "openrouter",
-    "cli",
+    "dall-e",
+    "imagen",
+    "background-removal",
     "editor"
   ],
   "author": {
@@ -31,6 +31,11 @@
       "displayName": "Simple Chat CLI Sample",
       "description": "A simple runtime IMGUI sample demonstrating basic CLI-based chat functionality.",
       "path": "Samples~/SimpleChatCliSample"
+    },
+    {
+      "displayName": "Simple Image Sample",
+      "description": "A simple runtime IMGUI sample demonstrating basic image generation functionality.",
+      "path": "Samples~/SimpleImageSample"
     }
   ]
 }

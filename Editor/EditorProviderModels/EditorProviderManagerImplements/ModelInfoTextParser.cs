@@ -1,7 +1,7 @@
 using System;
 using System.Globalization;
 
-namespace Weppy.AIProvider.Chat.Editor
+namespace Weppy.AIProvider.Editor
 {
     public static class ModelInfoTextParser
     {

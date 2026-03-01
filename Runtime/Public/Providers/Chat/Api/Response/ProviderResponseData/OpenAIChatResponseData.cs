@@ -1,5 +1,5 @@
 
-namespace Weppy.AIProvider.Chat
+namespace Weppy.AIProvider
 {
     /// <summary>
     /// OpenAI-specific response metadata for chat responses.

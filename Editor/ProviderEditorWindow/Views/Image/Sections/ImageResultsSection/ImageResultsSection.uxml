@@ -1,0 +1,18 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement class="section results-container">
+        <ui:VisualElement class="results-header-row">
+            <ui:Label class="section-header" text="Results" />
+            <ui:VisualElement class="header-actions">
+                <ui:VisualElement name="history-controls" class="history-controls">
+                    <ui:Label name="history-label" text="History" class="history-label" />
+                    <ui:DropdownField name="history-dropdown" class="history-dropdown" />
+                    <ui:Button name="history-load-button" text="Load" class="history-load-button" />
+                </ui:VisualElement>
+                <ui:Button name="clear-image-button" text="Clear Results" class="clear-results-button" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:ScrollView name="image-results-scroll" class="scroll-view image-results-scroll">
+            <ui:VisualElement name="image-results-container" />
+        </ui:ScrollView>
+    </ui:VisualElement>
+</ui:UXML>

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Weppy.AIProvider.Chat
+namespace Weppy.AIProvider
 {
     public partial class ChatProviderManager : IDisposable
     {
@@ -180,7 +180,18 @@ namespace Weppy.AIProvider.Chat
                     KeyValuePair<ChatProviderType, ChatResponse> result =
                         await SendToProviderInternalAsync(entry, requestParams_.RequestPayload, model, cancellationToken_);
 
-                    onProviderCompleted_?.Invoke(result.Key, result.Value);
+                    if (onProviderCompleted_ != null)
+                    {
+                        try
+                        {
+                            onProviderCompleted_.Invoke(result.Key, result.Value);
+                        }
+                        catch (Exception callbackException)
+                        {
+                            AIProviderLogger.LogError(
+                                $"[Chat] Provider callback failed - Provider: {result.Key}, Error: {callbackException.Message}");
+                        }
+                    }
                 }, cancellationToken_);
 
                 tasks.Add(task);
@@ -192,17 +203,22 @@ namespace Weppy.AIProvider.Chat
         private async Task StreamMessageInternalAsync(
             ChatRequestParams requestParams_,
             System.Func<string, System.Threading.Tasks.Task> onChunkReceived_,
+            System.Func<ChatProviderType, string, System.Threading.Tasks.Task> onError_,
             CancellationToken cancellationToken_)
         {
             if (onChunkReceived_ == null)
             {
-                UnityEngine.Debug.LogWarning("[ChatProviderManager] StreamMessageInternalAsync: onChunkReceived_ is null");
+                const string errorMessage = "[ChatProviderManager] StreamMessageInternalAsync: onChunkReceived_ is null";
+                UnityEngine.Debug.LogWarning(errorMessage);
+                await NotifyStreamingErrorAsync(ChatProviderType.NONE, errorMessage, onError_);
                 return;
             }
 
             if (requestParams_ == null || requestParams_.RequestPayload == null)
             {
-                UnityEngine.Debug.LogWarning("[ChatProviderManager] StreamMessageInternalAsync: requestParams_ is null");
+                const string errorMessage = "[ChatProviderManager] StreamMessageInternalAsync: requestParams_ is null";
+                UnityEngine.Debug.LogWarning(errorMessage);
+                await NotifyStreamingErrorAsync(ChatProviderType.NONE, errorMessage, onError_);
                 return;
             }
 
@@ -210,9 +226,13 @@ namespace Weppy.AIProvider.Chat
 
             if (targets.Count == 0)
             {
-                UnityEngine.Debug.LogWarning("[ChatProviderManager] No enabled providers found for streaming");
+                const string errorMessage = "[ChatProviderManager] No enabled providers found for streaming";
+                UnityEngine.Debug.LogWarning(errorMessage);
+                await NotifyStreamingErrorAsync(ChatProviderType.NONE, errorMessage, onError_);
                 return;
             }
+
+            List<string> streamErrors = new List<string>();
 
             foreach (ChatRequestProviderTarget target in targets)
             {
@@ -226,10 +246,10 @@ namespace Weppy.AIProvider.Chat
                     continue;
                 }
 
+                string model = ResolveModel(target.Model, requestParams_.RequestPayload.Model, entry.Settings?.DefaultModel);
+
                 try
                 {
-                    string model = ResolveModel(target.Model, requestParams_.RequestPayload.Model, entry.Settings?.DefaultModel);
-
                     AIProviderLogger.Log($"[Chat] Streaming request to {entry.ProviderType} (Model: {model})...");
                     AIProviderLogger.LogVerbose($"[Chat] Stream Request Details: {UnityEngine.JsonUtility.ToJson(requestParams_.RequestPayload)}");
 
@@ -238,10 +258,60 @@ namespace Weppy.AIProvider.Chat
                     AIProviderLogger.Log($"[Chat] Streaming finished for {entry.ProviderType}");
                     return;
                 }
+                catch (OperationCanceledException)
+                {
+                    string cancelledMessage = $"[Chat Stream] Cancelled - Provider: {entry.ProviderType}, Model: {model ?? "(default)"}";
+                    AIProviderLogger.LogWarning(cancelledMessage);
+                    await NotifyStreamingErrorAsync(entry.ProviderType, cancelledMessage, onError_);
+                    return;
+                }
                 catch (Exception ex)
                 {
-                    UnityEngine.Debug.LogError($"[ChatProviderManager] Streaming failed with provider {entry.ProviderType}: {ex.Message}\nStack trace: {ex.StackTrace}");
+                    string formattedError = FormatStreamingErrorMessage(entry.ProviderType, model, ex);
+                    streamErrors.Add(formattedError);
+                    AIProviderLogger.LogError(formattedError);
+                    await NotifyStreamingErrorAsync(entry.ProviderType, formattedError, onError_);
                 }
+            }
+
+            if (streamErrors.Count > 0)
+            {
+                AIProviderLogger.LogError($"[Chat Stream] All providers failed. Attempts: {streamErrors.Count}");
+            }
+        }
+
+        private string FormatStreamingErrorMessage(ChatProviderType providerType_, string model_, Exception exception_)
+        {
+            string errorType = exception_?.GetType().Name ?? "UnknownException";
+            string message = exception_?.Message ?? "Unknown error";
+            message = message.Replace('\r', ' ').Replace('\n', ' ').Trim();
+            if (string.IsNullOrEmpty(message))
+                message = "Unknown error";
+
+            return $"[Chat Stream] Failed - Provider: {providerType_}, Model: {model_ ?? "(default)"}, ErrorType: {errorType}, Error: {message}";
+        }
+
+        private async Task NotifyStreamingErrorAsync(
+            ChatProviderType providerType_,
+            string errorMessage_,
+            System.Func<ChatProviderType, string, System.Threading.Tasks.Task> onError_)
+        {
+            if (onError_ == null || string.IsNullOrEmpty(errorMessage_))
+                return;
+
+            try
+            {
+                await onError_(providerType_, errorMessage_);
+            }
+            catch (Exception callbackException)
+            {
+                string callbackErrorMessage = callbackException?.Message ?? "Unknown callback error";
+                callbackErrorMessage = callbackErrorMessage.Replace('\r', ' ').Replace('\n', ' ').Trim();
+                if (string.IsNullOrEmpty(callbackErrorMessage))
+                    callbackErrorMessage = "Unknown callback error";
+
+                AIProviderLogger.LogError(
+                    $"[Chat Stream] Error callback failed - Provider: {providerType_}, ErrorType: {callbackException?.GetType().Name ?? "UnknownException"}, Error: {callbackErrorMessage}");
             }
         }
 
@@ -321,7 +391,9 @@ namespace Weppy.AIProvider.Chat
 
         private List<ChatRequestProviderTarget> GetOrderedTargets(List<ChatRequestProviderTarget> targets_, bool onlyEnabled_)
         {
-            List<ChatRequestProviderTarget> targets = targets_ ?? new List<ChatRequestProviderTarget>();
+            List<ChatRequestProviderTarget> targets = targets_ != null
+                ? new List<ChatRequestProviderTarget>(targets_)
+                : new List<ChatRequestProviderTarget>();
 
             if (targets.Count == 0)
             {

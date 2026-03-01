@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-namespace Weppy.AIProvider.Chat.Editor
+namespace Weppy.AIProvider.Editor
 {
     public static class EditorHistoryStorage
     {
@@ -55,9 +55,54 @@ namespace Weppy.AIProvider.Chat.Editor
             return LoadSnapshot<ChatHistorySnapshot>(HistoryFeatureType.CHAT, entryId_);
         }
 
+        public static ImageHistorySnapshot LoadImageHistory(string entryId_)
+        {
+            return LoadSnapshot<ImageHistorySnapshot>(HistoryFeatureType.IMAGE, entryId_);
+        }
+
+        public static BgRemovalHistorySnapshot LoadBgRemovalHistory(string entryId_)
+        {
+            return LoadSnapshot<BgRemovalHistorySnapshot>(HistoryFeatureType.BG_REMOVAL, entryId_);
+        }
+
         public static bool SaveChatHistory(ChatHistorySnapshot snapshot_)
         {
             return SaveSnapshot(HistoryFeatureType.CHAT, snapshot_, null);
+        }
+
+        public static bool SaveImageHistory(ImageHistorySnapshot snapshot_, List<HistoryTextureData> textures_)
+        {
+            return SaveSnapshot(HistoryFeatureType.IMAGE, snapshot_, textures_);
+        }
+
+        public static bool SaveBgRemovalHistory(BgRemovalHistorySnapshot snapshot_, List<HistoryTextureData> textures_)
+        {
+            return SaveSnapshot(HistoryFeatureType.BG_REMOVAL, snapshot_, textures_);
+        }
+
+        public static Texture2D LoadTexture(HistoryFeatureType featureType_, string entryId_, string fileName_)
+        {
+            if (string.IsNullOrEmpty(fileName_))
+                return null;
+
+            string entryPath = GetEntryFolderPath(featureType_, entryId_);
+            string filePath = Path.Combine(entryPath, fileName_);
+            if (!File.Exists(filePath))
+                return null;
+
+            try
+            {
+                byte[] imageBytes = File.ReadAllBytes(filePath);
+                Texture2D texture = new Texture2D(2, 2);
+                if (texture.LoadImage(imageBytes))
+                    return texture;
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning($"[AIProvider] Failed to load history texture: {ex.Message}");
+            }
+
+            return null;
         }
 
         private static string GetProjectRootPath()
@@ -92,6 +137,10 @@ namespace Weppy.AIProvider.Chat.Editor
             {
                 case HistoryFeatureType.CHAT:
                     return "Chat";
+                case HistoryFeatureType.IMAGE:
+                    return "Image";
+                case HistoryFeatureType.BG_REMOVAL:
+                    return "BgRemoval";
                 default:
                     return "Unknown";
             }
@@ -141,6 +190,10 @@ namespace Weppy.AIProvider.Chat.Editor
         {
             if (snapshot_ is ChatHistorySnapshot chatSnapshot)
                 return chatSnapshot.Id;
+            if (snapshot_ is ImageHistorySnapshot imageSnapshot)
+                return imageSnapshot.Id;
+            if (snapshot_ is BgRemovalHistorySnapshot bgSnapshot)
+                return bgSnapshot.Id;
             return null;
         }
 

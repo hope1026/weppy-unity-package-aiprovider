@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement class="bgremoval-provider-section section">
+        <ui:VisualElement name="providers-header-row" class="providers-header-row">
+            <ui:Button name="bgremoval-provider-selection-button" class="model-selection-button" text="Background Removal Providers (0)" />
+            <ui:VisualElement name="selected-models-chips" class="selected-models-chips" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

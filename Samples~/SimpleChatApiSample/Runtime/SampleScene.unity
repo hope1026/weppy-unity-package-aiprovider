@@ -299,7 +299,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3d7a6ff144e844358967879a80a5fdbf, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Weppy.AIProvider.Chat.Chat.Samples.SimpleChatSample::Weppy.AIProvider.Chat.Chat.Samples.SimpleChatSampleIMGUI
+  m_EditorClassIdentifier: Weppy.AIProvider.Chat.Samples.SimpleChatSample::Weppy.AIProvider.Chat.Samples.SimpleChatSampleIMGUI
   _providerType: 1
   _apiKey: 
   _model: gpt-4o

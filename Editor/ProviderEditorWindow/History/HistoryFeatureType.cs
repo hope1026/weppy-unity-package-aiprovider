@@ -1,8 +1,10 @@
-namespace Weppy.AIProvider.Chat.Editor
+namespace Weppy.AIProvider.Editor
 {
     public enum HistoryFeatureType
     {
         NONE = 0,
-        CHAT = 1
+        CHAT = 1,
+        IMAGE = 2,
+        BG_REMOVAL = 3
     }
 }

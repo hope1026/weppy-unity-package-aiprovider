@@ -1,0 +1,28 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement class="section request-section">
+        <ui:Label class="section-header" text="Input Image" />
+
+        <ui:VisualElement name="input-image-container" class="input-image-container sub-section">
+            <ui:VisualElement class="attachment-header">
+                <ui:Label text="Select an image to remove background" class="attachment-label" />
+                <ui:VisualElement class="attachment-buttons">
+                    <ui:Button name="add-image-button" text="+ Image" class="add-image-button" tooltip="Add image files (PNG, JPG, GIF, WebP)" />
+                    <ui:Button name="add-project-texture-button" text="+ Texture" class="add-image-button" tooltip="Add Unity project texture" />
+                    <ui:Button name="clear-image-button" text="Clear" class="clear-image-button" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="texture-drop-area" class="texture-drop-area">
+                <ui:Label text="Drop image files here or Unity Texture2D" class="drop-area-hint" />
+            </ui:VisualElement>
+            <ui:VisualElement name="input-image-preview" class="input-image-preview" />
+            <ui:Label name="attachment-hint" class="attachment-hint" text="Tip: Cmd+V / Ctrl+V to paste images, drag files or project textures" />
+        </ui:VisualElement>
+
+        <ui:VisualElement class="button-row send-options-row">
+            <ui:VisualElement class="send-options-left">
+                <ui:DropdownField name="process-mode-dropdown" class="send-mode-dropdown" />
+            </ui:VisualElement>
+            <ui:Button name="process-button" class="send-button" text="Remove Background" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

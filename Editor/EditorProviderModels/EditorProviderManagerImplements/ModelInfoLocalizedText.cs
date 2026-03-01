@@ -1,6 +1,6 @@
 using System;
 
-namespace Weppy.AIProvider.Chat.Editor
+namespace Weppy.AIProvider.Editor
 {
     [Serializable]
     public class ModelInfoLocalizedText
